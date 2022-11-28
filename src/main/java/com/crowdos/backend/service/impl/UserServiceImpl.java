@@ -11,13 +11,23 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final long EXPIRE_TIME = 365 * 24 * 60 * 60 * 1000;
+    private static final String TOKEN_SECRET = "privateKey";
+
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Override
-    public String register(Map<String,String> register) {
+    public Boolean register(Map<String,String> register) {
 
 //        return email+password+"114514";
-        return register.get("email");
+
+        String email = register.get("email");
+        String passwd = register.get("passwd");
+        if( ){
+
+        }
+        return Boolean.TRUE;
     }
 }
