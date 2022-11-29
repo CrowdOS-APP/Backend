@@ -57,4 +57,14 @@ public class UserServiceImpl implements UserService {
 //        }
         return Boolean.TRUE;
     }
+    public String login(Map<String, String> login) {
+
+
+        String email = login.get("email");
+        String passwd = login.get("passwd");
+//      String token = getToken(email,passwd);
+        String token = "eyJUeXBlIjoiSnd0IiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJleHAiOjE2NzExOTY0MTQsInVzZXJJZCI6InQuYm1zaXJ1bXBAcXEuY29tIn0.TPtwnBptWbYTPX-IHDN-Tp3K5Ef7hYXYtk3dFyBAi2c";
+        //token 为空字符串意味着登陆失败
+        return token;
+    }
 }

@@ -4,5 +4,6 @@ import java.util.Map;
 
 public interface UserService {
     Boolean register(Map<String,String> register);
-//    void login(String email, String password);
+
+    String login(Map<String, String> login);
 }

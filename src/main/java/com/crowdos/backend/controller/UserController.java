@@ -24,4 +24,8 @@ public class UserController {
     public Boolean register(@RequestBody Map<String, String> Register) {
         return userService.register(Register);
     }
+    @PostMapping("login")
+    public String login(@RequestBody Map<String, String> Login) {
+        return userService.login(Login);
+    }
 }
