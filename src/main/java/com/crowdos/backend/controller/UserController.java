@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("register")
-    public String register(@RequestBody Map<String, String> Register) {
+    public Boolean register(@RequestBody Map<String, String> Register) {
         return userService.register(Register);
     }
 }
