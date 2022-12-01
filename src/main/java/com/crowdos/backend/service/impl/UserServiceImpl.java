@@ -15,7 +15,7 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private static final long EXPIRE_TIME = 365 * 24 * 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 365L * 24 * 60 * 60 * 1000;
     private static final String TOKEN_SECRET = "privateKey";
 
     public static String createToken(String userId) {

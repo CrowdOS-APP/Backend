@@ -7,16 +7,16 @@ import jakarta.persistence.*;
 public class user {
     @Id
     @Column(name="uid")
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long uid;
-    @Id
+
     @Column(name="email")
     private String email;
     @Column
     private String passwd;
     private String name;
     private int privilege;
-    private String avartarUrl;
+    private String avartarurl;
     private String signature;
 
     public long getUid() {
@@ -59,12 +59,12 @@ public class user {
         this.privilege = privilege;
     }
 
-    public String getAvartarUrl() {
-        return avartarUrl;
+    public String getAvartarurl() {
+        return avartarurl;
     }
 
-    public void setAvartarUrl(String avartarUrl) {
-        this.avartarUrl = avartarUrl;
+    public void setAvartarurl(String avartarUrl) {
+        this.avartarurl = avartarUrl;
     }
 
     public String getSignature() {
