@@ -1,8 +1,6 @@
 package com.crowdos.backend.controller;
 
 
-import com.crowdos.backend.model.user;
-import com.crowdos.backend.repository.UserRepositoryUid;
 import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +17,11 @@ public class UserController {
         return s;
     }
 
-    @Autowired
-    private UserRepositoryUid userRepositoryUid;
     @GetMapping("/query/id")
-    public String getEmail(long uid){
-        user user=userRepositoryUid.findByUid(uid);
-        if(user!=null){
-            return user.getEmail();
-        }
-        else
+    public String getUser(long uid){
+        if(userService.findUserById(uid)==null)
             return "Not Found";
+        else return userService.findUserById(uid).getName();
     }
 
     @Autowired

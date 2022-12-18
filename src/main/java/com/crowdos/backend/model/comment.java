@@ -15,6 +15,20 @@ public class comment {
     private String content;
     private int uplevel;
 
+    private boolean root; //If root is true, uplevel refers to eventid, else to commentid
+
+    public comment() {
+    }
+
+    public comment(long commentid, long uid, long eventid, String content, int uplevel, boolean root) {
+        this.commentid = commentid;
+        this.uid = uid;
+        this.eventid = eventid;
+        this.content = content;
+        this.uplevel = uplevel;
+        this.root = root;
+    }
+
     public long getCommentid() {
         return commentid;
     }
@@ -53,5 +67,13 @@ public class comment {
 
     public void setUplevel(int uplevel) {
         this.uplevel = uplevel;
+    }
+
+    public boolean isRoot() {
+        return root;
+    }
+
+    public void setRoot(boolean root) {
+        this.root = root;
     }
 }

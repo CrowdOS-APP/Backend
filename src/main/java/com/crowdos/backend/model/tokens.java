@@ -4,13 +4,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.springframework.context.annotation.EnableMBeanExport;
 
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="token")
-public class token {
+@Table(name="tokens")
+public class tokens {
     @Id
     @Column(name="uid")
     private int uid;
@@ -19,6 +18,15 @@ public class token {
     private String token;
     @Column
     private Timestamp expiretime;
+
+    public tokens() {
+    }
+
+    public tokens(int uid, String token, Timestamp expiretime) {
+        this.uid = uid;
+        this.token = token;
+        this.expiretime = expiretime;
+    }
 
     public int getUid() {
         return uid;

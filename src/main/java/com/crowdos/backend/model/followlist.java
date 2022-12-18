@@ -14,6 +14,15 @@ public class followlist {
     @Column(name = "follower")
     private long follower;
 
+    public followlist() {
+    }
+
+    public followlist(long id, long uid, long follower) {
+        this.id = id;
+        this.uid = uid;
+        this.follower = follower;
+    }
+
     public long getId() {
         return id;
     }

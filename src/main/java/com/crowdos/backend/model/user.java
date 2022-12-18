@@ -9,9 +9,6 @@ public class user {
     @Column(name="uid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long uid;
-
-    @Column(name="email")
-    private String email;
     @Column
     private String passwd;
     private String name;
@@ -19,21 +16,25 @@ public class user {
     private String avartarurl;
     private String signature;
 
+    public user() {
+    }
+
+    public user(long uid, String passwd, String name, int privilege, String avartarurl, String signature) {
+        this.uid = uid;
+        this.passwd = passwd;
+        this.name = name;
+        this.privilege = privilege;
+        this.avartarurl = avartarurl;
+        this.signature = signature;
+    }
+
     public long getUid() {
         return uid;
     }
 
-    public void setUid(long uid) {
-        this.uid = uid;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//    public void setUid(long uid) {
+//        this.uid = uid;
+//    }
 
     public String getPasswd() {
         return passwd;

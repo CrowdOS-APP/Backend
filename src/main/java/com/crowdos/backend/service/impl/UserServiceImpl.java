@@ -3,6 +3,8 @@ package com.crowdos.backend.service.impl;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.crowdos.backend.dao.UserDao;
+import com.crowdos.backend.model.user;
 import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -67,4 +69,31 @@ public class UserServiceImpl implements UserService {
         //token 为空字符串意味着登陆失败
         return token;
     }
+
+    //Write in DB --Yuki
+    @Autowired
+    private UserDao userDao;
+
+    // Find
+    public user findUserById(Long uid){
+        return userDao.findById(uid).isPresent() ? userDao.findById(uid).get():null;
+    }
+
+
+    // Create
+    public user createUser(user newUser){
+        return userDao.save(newUser);
+    }
+
+    // Delete
+    public void deleteUserById(Long uid){
+        userDao.deleteById(uid);
+    }
+
+    // Update
+    public user updateUserById(user newUser){
+        return userDao.save(newUser);
+    }
+
+
 }

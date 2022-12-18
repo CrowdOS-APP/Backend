@@ -22,6 +22,20 @@ public class event {
     private boolean emergency;
     private String pictureUrl;
 
+    public event() {
+    }
+
+    public event(long eventid, String eventname, String content, String place, Timestamp starttime, Timestamp endtime, boolean emergency, String pictureUrl) {
+        this.eventid = eventid;
+        this.eventname = eventname;
+        this.content = content;
+        this.place = place;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.emergency = emergency;
+        this.pictureUrl = pictureUrl;
+    }
+
     public long getEventid() {
         return eventid;
     }
