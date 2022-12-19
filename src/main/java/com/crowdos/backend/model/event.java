@@ -2,8 +2,6 @@ package com.crowdos.backend.model;
 
 import jakarta.persistence.*;
 
-import java.net.URL;
-import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity

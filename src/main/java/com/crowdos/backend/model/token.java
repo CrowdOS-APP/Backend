@@ -8,21 +8,20 @@ import jakarta.persistence.Table;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name="tokens")
-public class tokens {
+@Table(name="token")
+public class token {
     @Id
     @Column(name="uid")
     private int uid;
-    @Id
     @Column(name="token")
     private String token;
     @Column
     private Timestamp expiretime;
 
-    public tokens() {
+    public token() {
     }
 
-    public tokens(int uid, String token, Timestamp expiretime) {
+    public token(int uid, String token, Timestamp expiretime) {
         this.uid = uid;
         this.token = token;
         this.expiretime = expiretime;

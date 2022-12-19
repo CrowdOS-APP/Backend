@@ -7,12 +7,14 @@ import com.crowdos.backend.dao.UserDao;
 import com.crowdos.backend.model.user;
 import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -91,9 +93,15 @@ public class UserServiceImpl implements UserService {
     }
 
     // Update
-    public user updateUserById(user newUser){
+    public user updateUser(user newUser){
         return userDao.save(newUser);
     }
 
-
+    public boolean isEmailPresent(String email){
+        Optional<user> entity=userDao.findOne((Specification<user>) (root, query, builder) -> query.where(builder.equal(root.get("email"),email)).getRestriction());
+        return entity.isPresent();
+    }
+    public user findUserByEmail(String email){
+        return userDao.findOne((Specification<user>) (root, query, builder) -> query.where(builder.equal(root.get("email"),email)).getRestriction()).orElse(null);
+    }
 }

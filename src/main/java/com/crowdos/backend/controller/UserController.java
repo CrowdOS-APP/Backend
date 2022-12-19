@@ -17,7 +17,7 @@ public class UserController {
         return s;
     }
 
-    @GetMapping("/query/id")
+    @GetMapping("/query")
     public String getUser(long uid){
         if(userService.findUserById(uid)==null)
             return "Not Found";
