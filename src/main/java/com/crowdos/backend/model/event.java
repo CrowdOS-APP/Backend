@@ -1,12 +1,19 @@
 package com.crowdos.backend.model;
 
+import cn.crowdos.kernel.Decomposer;
+import cn.crowdos.kernel.constraint.Constraint;
+import cn.crowdos.kernel.resource.Participant;
+import cn.crowdos.kernel.resource.Task;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "event")
-public class event {
+public class event implements Task {
     @Id
     @Column(name="eventid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,5 +103,54 @@ public class event {
 
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+    }
+
+    @Override
+    public TaskDistributionType getTaskDistributionType() {
+        return TaskDistributionType.RECOMMENDATION;
+    }
+
+    @Override
+    public TaskStatus getTaskStatus() {
+        long time=new Date().getTime();
+        if(time>=starttime.getTime()&&time<=endtime.getTime()){
+            return TaskStatus.READY;
+        }
+        else if(time>=endtime.getTime())
+            return TaskStatus.FINISHED;
+        else
+            return TaskStatus.IN_PROGRESS;
+    }
+
+    @Override
+    public void setTaskStatus(TaskStatus taskStatus) {
+    }
+
+    @Override
+    public List<Constraint> constraints() {
+    List<Constraint> constraintList=new ArrayList<>();
+//    constraintList.add(new SimpleSpatioConstraint());
+//    constraintList.add(new SimpleTimeConstraint());
+        return constraintList;
+    }
+
+    @Override
+    public boolean canAssignTo(Participant participant) {
+        return false;
+    }
+
+    @Override
+    public boolean assignable() {
+        return false;
+    }
+
+    @Override
+    public boolean finished() {
+        return false;
+    }
+
+    @Override
+    public Decomposer<Task> decomposer() {
+        return null;
     }
 }

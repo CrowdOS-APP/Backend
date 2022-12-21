@@ -4,7 +4,9 @@ package com.crowdos.backend.service.impl;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.crowdos.backend.dao.UserDao;
+import com.crowdos.backend.model.token;
 import com.crowdos.backend.model.user;
+import com.crowdos.backend.service.TokenService;
 import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -47,6 +49,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    TokenService tokenService;
+
     @Override
     public Boolean register(Map<String, String> register) {
 
@@ -55,10 +60,15 @@ public class UserServiceImpl implements UserService {
         String email = register.get("email");
         String passwd = register.get("passwd");
         System.out.println("out: " + createToken(email));
-//        if( ){
-//
-//        createToken(getUserUid())
-//        }
+        user aUser = new user();
+        aUser.setEmail(email);
+        aUser.setPasswd(passwd);
+        createUser(aUser);
+        token Token=new token();
+        Token.setUid(aUser.getUid());
+        Token.setToken(createToken(aUser.getEmail()));
+        tokenService.createToken(Token);
+
         return Boolean.TRUE;
     }
     public String login(Map<String, String> login) {
