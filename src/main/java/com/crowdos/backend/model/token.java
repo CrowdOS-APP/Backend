@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 public class token {
     @Id
     @Column(name="uid")
-    private int uid;
+    private long uid;
     @Column(name="token")
     private String token;
     @Column
@@ -27,11 +27,11 @@ public class token {
         this.expiretime = expiretime;
     }
 
-    public int getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 
