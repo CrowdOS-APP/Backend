@@ -83,8 +83,12 @@ public class UserServiceImpl implements UserService {
     }
 
     public Map<String, Object> getUserInfo(String token) {
-
-        return null;
+        Map<String, Object> map = new HashMap<>(2);
+        Long uid = tokenService.findUidByToken(token).getUid();
+        user aUser = findUserById(uid);
+        map.put("signature",aUser.getSignature());
+        map.put("UID",uid);
+        return map;
     }
 
     //Write in DB --Yuki
