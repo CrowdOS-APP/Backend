@@ -17,4 +17,6 @@ public interface UserService {
     user updateUser(user newUser);
     boolean isEmailPresent(String email);
     user findUserByEmail(String email);
+
+    Map<String, Object> getUserInfo(String token);
 }

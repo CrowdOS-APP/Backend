@@ -76,10 +76,15 @@ public class UserServiceImpl implements UserService {
         String email = login.get("email");
         String passwd = login.get("passwd");
         user aUser = findUserByEmail(email);
-        if(aUser.getPasswd() == passwd) {
+        if(aUser.getPasswd().equals(passwd)) {
             String token = tokenService.findTokenByUid(aUser.getUid()).getToken();
             return token;
         }else return "";
+    }
+
+    public Map<String, Object> getUserInfo(String token) {
+
+        return null;
     }
 
     //Write in DB --Yuki
