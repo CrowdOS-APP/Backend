@@ -18,6 +18,7 @@ public class user {
 
     @Transient
     private long longitude;
+    @Transient
     private long latitude;
     public user() {
     }
