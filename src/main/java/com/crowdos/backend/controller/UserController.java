@@ -34,4 +34,14 @@ public class UserController {
     public Map<String, Object> getUserInfo(@RequestParam String token) {
         return userService.getUserInfo(token);
     }
+    @PostMapping ("updateUserInfo")
+    public Map<String, Object> updateUserInfo(@RequestParam String token,
+                                  @RequestBody Map<String, String> signature) {
+        return userService.updateUserInfo(token,signature);
+    }
+    @PostMapping ("updatePasswd")
+    public Map<String, Object> updatePasswd(@RequestParam String token,
+                                              @RequestBody Map<String, String> passwd) {
+        return userService.updatePasswd(token,passwd);
+    }
 }

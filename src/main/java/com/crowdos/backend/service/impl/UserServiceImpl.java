@@ -76,7 +76,8 @@ public class UserServiceImpl implements UserService {
         String email = login.get("email");
         String passwd = login.get("passwd");
         user aUser = findUserByEmail(email);
-        if(aUser.getPasswd().equals(passwd)) {
+        if(aUser == null ) return "";
+        else if(aUser.getPasswd().equals(passwd)) {
             String token = tokenService.findTokenByUid(aUser.getUid()).getToken();
             return token;
         }else return "";
@@ -91,6 +92,36 @@ public class UserServiceImpl implements UserService {
         return map;
     }
 
+    public Map<String, Object> updateUserInfo(String token, Map<String, String> signature){
+        Map<String, Object> map = new HashMap<>(1);
+        if(tokenService.findUidByToken(token)==null){
+            map.put("isSucceed",false);
+        }else{
+            Long uid = tokenService.findUidByToken(token).getUid();
+            user aUser = findUserById(uid);
+            aUser.setSignature(signature.get("signature"));
+            updateUser(aUser);
+            map.put("isSucceed",true);
+        }
+        return map;
+    }
+    public Map<String, Object> updatePasswd(String token, Map<String, String> passwd){
+        Map<String, Object> map = new HashMap<>(1);
+        if(tokenService.findUidByToken(token)==null){
+            map.put("isSucceed",false);
+        }else{
+            Long uid = tokenService.findUidByToken(token).getUid();
+            user aUser = findUserById(uid);
+            if(!aUser.getPasswd().equals(passwd.get("oldPasswd"))){
+                map.put("isSucceed",false);
+            }else{
+                aUser.setPasswd(passwd.get("newPasswd"));
+                updateUser(aUser);
+                map.put("isSucceed",true);
+            }
+        }
+        return map;
+    }
     //Write in DB --Yuki
     @Autowired
     private UserDao userDao;
