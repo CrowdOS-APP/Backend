@@ -77,8 +77,7 @@ public class UserServiceImpl implements UserService {
         String passwd = login.get("passwd");
         user aUser = findUserByEmail(email);
         if(aUser.getPasswd() == passwd) {
-            TokenService atokenService = ;
-            String token = atokenService.findTokenByUid(aUser.getUid()).getToken();
+            String token = tokenService.findTokenByUid(aUser.getUid()).getToken();
             return token;
         }else return "";
     }
