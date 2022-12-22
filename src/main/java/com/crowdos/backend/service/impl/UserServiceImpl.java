@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
         String email = register.get("email");
         String passwd = register.get("passwd");
-        System.out.println("out: " + createToken(email));
+//        System.out.println("out: " + createToken(email));
         user aUser = new user();
         aUser.setEmail(email);
         aUser.setPasswd(passwd);
@@ -73,13 +73,14 @@ public class UserServiceImpl implements UserService {
     }
     public String login(Map<String, String> login) {
 
-
         String email = login.get("email");
         String passwd = login.get("passwd");
-//      String token = getToken(email,passwd);
-        String token = "eyJUeXBlIjoiSnd0IiwidHlwIjoiSldUIiwiYWxnIjoiSFMyNTYifQ.eyJleHAiOjE2NzExOTY0MTQsInVzZXJJZCI6InQuYm1zaXJ1bXBAcXEuY29tIn0.TPtwnBptWbYTPX-IHDN-Tp3K5Ef7hYXYtk3dFyBAi2c";
-        //token 为空字符串意味着登陆失败
-        return token;
+        user aUser = findUserByEmail(email);
+        if(aUser.getPasswd() == passwd) {
+            TokenService atokenService = ;
+            String token = atokenService.findTokenByUid(aUser.getUid()).getToken();
+            return token;
+        }else return "";
     }
 
     //Write in DB --Yuki

@@ -12,6 +12,9 @@ import java.util.Map;
 
 @RestController
 public class UserController {
+
+    @Autowired
+    private UserService userService;
     @GetMapping("/hello")
     public String HelloWorld(String s) {
         return s;
@@ -24,8 +27,7 @@ public class UserController {
         else return userService.findUserById(uid).getName();
     }
 
-    @Autowired
-    private UserService userService;
+
 
     @PostMapping("register")
     public Boolean register(@RequestBody Map<String, String> Register) {
