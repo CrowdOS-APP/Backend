@@ -9,4 +9,5 @@ public interface TokenService{
     token createToken(token newToken);
     token updateToken(token newToken);
     void deleteTokenByUid(Long uid);
+    token findUidByToken(String aToken);
 }
