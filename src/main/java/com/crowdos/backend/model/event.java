@@ -1,7 +1,7 @@
 package com.crowdos.backend.model;
 
 import cn.crowdos.kernel.Decomposer;
-import cn.crowdos.kernel.constraint.Constraint;
+import cn.crowdos.kernel.constraint.*;
 import cn.crowdos.kernel.resource.Participant;
 import cn.crowdos.kernel.resource.Task;
 import jakarta.persistence.*;
@@ -20,21 +20,30 @@ public class event implements Task {
     private long eventid;
     @Column
     private String eventname;
+    @Column
     private String content;
-    private String place;
+    @Column
+    private long longitude;
+    @Column
+    private long latitude;
+    @Column
     private Timestamp starttime;
+    @Column
     private Timestamp endtime;
+    @Column
     private boolean emergency;
+    @Column
     private String pictureUrl;
 
     public event() {
     }
 
-    public event(long eventid, String eventname, String content, String place, Timestamp starttime, Timestamp endtime, boolean emergency, String pictureUrl) {
+    public event(long eventid, String eventname, String content, long longitude, long latitude, Timestamp starttime, Timestamp endtime, boolean emergency, String pictureUrl) {
         this.eventid = eventid;
         this.eventname = eventname;
         this.content = content;
-        this.place = place;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.starttime = starttime;
         this.endtime = endtime;
         this.emergency = emergency;
@@ -65,12 +74,20 @@ public class event implements Task {
         this.content = content;
     }
 
-    public String getPlace() {
-        return place;
+    public long getLongitude() {
+        return longitude;
     }
 
-    public void setPlace(String place) {
-        this.place = place;
+    public void setLongitude(long longitude) {
+        this.longitude = longitude;
+    }
+
+    public long getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(long latitude) {
+        this.latitude = latitude;
     }
 
     public Timestamp getStarttime() {
@@ -129,8 +146,16 @@ public class event implements Task {
     @Override
     public List<Constraint> constraints() {
     List<Constraint> constraintList=new ArrayList<>();
-//    constraintList.add(new SimpleSpatioConstraint());
-//    constraintList.add(new SimpleTimeConstraint());
+        try {
+            constraintList.add(new SimpleSpatioConstraint(new Coordinate(longitude-0.02,this.latitude-0.02),new Coordinate(longitude+0.02,this.latitude+0.02)));
+        } catch (InvalidConstraintException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            constraintList.add(new SimpleTimeConstraint(starttime,endtime));
+        } catch (InvalidConstraintException e) {
+            throw new RuntimeException(e);
+        }
         return constraintList;
     }
 
