@@ -14,18 +14,22 @@ public class user {
     private String passwd;
     private String name;
     private int privilege;
-    private String avartarurl;
     private String signature;
 
+    @Transient
+    private long longitude;
+    private long latitude;
     public user() {
     }
 
-    public user(long uid, String passwd, String name, int privilege, String avartarurl, String signature) {
+    public user(long uid, String email, String passwd, String name, int privilege, String signature,long longitude, long latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.uid = uid;
+        this.email = email;
         this.passwd = passwd;
         this.name = name;
         this.privilege = privilege;
-        this.avartarurl = avartarurl;
         this.signature = signature;
     }
 
@@ -68,20 +72,28 @@ public class user {
         this.privilege = privilege;
     }
 
-    public String getAvartarurl() {
-        return avartarurl;
-    }
-
-    public void setAvartarurl(String avartarUrl) {
-        this.avartarurl = avartarUrl;
-    }
-
     public String getSignature() {
         return signature;
     }
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public long getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(long longitude) {
+        this.longitude = longitude;
+    }
+
+    public long getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(long latitude) {
+        this.latitude = latitude;
     }
 }
 
