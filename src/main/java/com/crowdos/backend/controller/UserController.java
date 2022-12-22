@@ -31,7 +31,7 @@ public class UserController {
         return userService.login(Login);
     }
     @GetMapping ("getUserInfo")
-    public Map<String, Object> getUserInfo(@RequestParam String Token) {
-        return userService.getUserInfo(Token);
+    public Map<String, Object> getUserInfo(@RequestParam String token) {
+        return userService.getUserInfo(token);
     }
 }
