@@ -44,13 +44,13 @@ public class FollowServiceImpl implements FollowService {
     }
     public Page<followlist> findFollowingByUidInPage(int pagenum, int pagesize, long uid){
         PageRequest pageRequest=PageRequest.of(pagenum,pagesize);
-        return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("following"),uid)).getRestriction(), pageRequest);
+        return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("follower"),uid)).getRestriction(), pageRequest);
     }
     public List<followlist> findAllFollowerByUid(long uid){
         return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("uid"),uid)).getRestriction());
     }
     public List<followlist> findAllFollowingByUid(long uid){
-        return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("following"),uid)).getRestriction());
+        return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("follower"),uid)).getRestriction());
     }
 
     public Map<String, Object> follow(String token, Long UID, Map<String, String> follow) {
