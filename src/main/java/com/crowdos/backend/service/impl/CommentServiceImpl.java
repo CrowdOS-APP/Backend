@@ -44,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
         }
     }
 
-    public List<comment> getCommentInPage(long id, boolean isroot) {
+    public List<comment> getCommentInList(long id, boolean isroot) {
         if (isroot) {
             return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction());
         } else {

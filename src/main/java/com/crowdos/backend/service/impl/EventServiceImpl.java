@@ -40,7 +40,7 @@ public class EventServiceImpl implements EventService {
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction(), pageRequest);
     }
 
-    public List<event> getEventInPage(long id) {
+    public List<event> getEventInList(long id) {
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction());
     }
 }
