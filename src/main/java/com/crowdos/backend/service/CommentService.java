@@ -4,6 +4,8 @@ import com.crowdos.backend.model.comment;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public interface CommentService {
     comment findCommentByCid(Long commentid);
@@ -11,4 +13,5 @@ public interface CommentService {
     comment updateComment(comment newComment);
     void deleteCommentByCid(Long commentid);
     Page<comment> getCommentInPage(int pagenum, int pagesize, long id, boolean isroot);
+    List<comment> getCommentInList(long id, boolean isroot);
 }
