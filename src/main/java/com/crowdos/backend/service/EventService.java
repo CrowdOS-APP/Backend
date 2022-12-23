@@ -14,11 +14,12 @@ public interface EventService {
     event createEvent(event newEvent);
     event updateEvent(event newEvent);
     void deleteEventByEid(Long eventid);
-    Page<event> getEventInPage(int pagenum, int pagesize, long id);
-    List<event> getEventInList(long id);
+    Page<event> getAllEventInPage(int pagenum, int pagesize, long id);
+    List<event> getUserEventByUid(long id);
 
     Map<String, Object> getEvenInfo(long eventId);
     List<event> getEmergencyEvent(user aUser);
+    List<event> getUserEventInList();
 
     Map<String, Object> uploadEvenInfo(String token, Map<String, String> info);
 

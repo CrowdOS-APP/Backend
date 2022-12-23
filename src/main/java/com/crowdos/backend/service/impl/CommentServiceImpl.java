@@ -41,21 +41,20 @@ public class CommentServiceImpl implements CommentService {
         commentDao.deleteById(commentid);
     }
 
-    public Page<comment> getCommentInPage(int pagenum, int pagesize, long id, boolean isroot) {
-        PageRequest pageRequest = PageRequest.of(pagenum, pagesize, Sort.Direction.DESC);
-        if (isroot) {
-            return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction(), pageRequest);
-        } else {
-            return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("commentid"), id)).getRestriction(), pageRequest);
-        }
+    public Page<comment> getAllCommentInPage(int pagenum, int pagesize, long eid) {
+        return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), eid)).getRestriction(), PageRequest.of(pagenum, pagesize, Sort.Direction.DESC));
     }
 
-    public List<comment> getCommentInList(long id, boolean isroot) {
-        if (isroot) {
-            return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction());
-        } else {
-            return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("commentid"), id)).getRestriction());
-        }
+    public List<comment> getAllCommentInList(long eid) {
+        return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), eid)).getRestriction());
+    }
+
+    public Page<comment> getUserCommentInPage(int pagenum, int pagesize, long uid) {
+        return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), uid)).getRestriction(), PageRequest.of(pagenum, pagesize, Sort.Direction.DESC));
+    }
+
+    public List<comment> getUserCommentInList(long uid) {
+        return commentDao.findAll((Specification<comment>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), uid)).getRestriction());
     }
 
     public Map<String, Object> postComment(String token, String eventId, Map<String, String> comment){
