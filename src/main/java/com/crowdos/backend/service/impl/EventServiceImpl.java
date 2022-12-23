@@ -1,8 +1,10 @@
 package com.crowdos.backend.service.impl;
 
 import com.crowdos.backend.dao.EventDao;
+import com.crowdos.backend.model.comment;
 import com.crowdos.backend.model.event;
 import com.crowdos.backend.model.user;
+import com.crowdos.backend.service.CommentService;
 import com.crowdos.backend.service.EventService;
 import com.crowdos.backend.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     TokenService tokenService;
+
+    @Autowired
+    CommentService commentService;
     @Autowired
     private EventDao eventDao;
 
@@ -101,5 +106,23 @@ public class EventServiceImpl implements EventService {
         }
         return list;
     }
-
+    public List getComment(String token, Long eventId) {
+        if(tokenService.findUidByToken(token)==null){
+            return null;
+        }else{
+            return commentService.getAllCommentInList(eventId);
+        }
+    }
+    public Map<String, Object> postComment(String token, Long eventId, Map<String, String> comment){
+        Map<String, Object> map = new HashMap<>(1);
+        if(tokenService.findUidByToken(token)==null){
+            map.put("isSucceed",false);
+        }else{
+            comment aComment = new comment();
+            aComment.setContent(comment.get("comment"));
+            commentService.createComment(aComment);
+            map.put("isSucceed",true);
+        }
+        return map;
+    }
 }

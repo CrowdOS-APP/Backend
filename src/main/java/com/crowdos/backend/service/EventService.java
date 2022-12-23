@@ -22,4 +22,8 @@ public interface EventService {
     List<event> getAllEventInList();
 
     Map<String, Object> uploadEvenInfo(String token, Map<String, String> info);
+
+    List getComment(String token, Long eventId);
+
+    Map<String, Object> postComment(String token, Long eventId, Map<String, String> comment);
 }

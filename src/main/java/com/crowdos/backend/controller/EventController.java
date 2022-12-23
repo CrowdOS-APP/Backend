@@ -1,5 +1,6 @@
 package com.crowdos.backend.controller;
 
+import com.crowdos.backend.service.CommentService;
 import com.crowdos.backend.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+
 
     @GetMapping("/getEvenInfo")
     public  Map<String, Object> getEvenInfo(long eventId){
@@ -27,5 +29,17 @@ public class EventController {
     @GetMapping("/getEventList")
     public List getEventList(){
         return eventService.getAllEventInList();
+    }
+
+    @GetMapping("/getComment")
+    public List getComment(@RequestParam String token,@RequestParam Long eventId){
+        return eventService.getComment(token,eventId);
+    }
+
+    @PostMapping("/postComment")
+    public Map<String, Object> postComment(@RequestParam String token,
+                            @RequestParam Long eventId,
+                            @RequestBody Map<String, String> comment){
+        return eventService.postComment(token,eventId,comment);
     }
 }
