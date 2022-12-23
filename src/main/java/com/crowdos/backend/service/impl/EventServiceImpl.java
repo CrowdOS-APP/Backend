@@ -43,12 +43,16 @@ public class EventServiceImpl implements EventService {
         eventDao.deleteById(eventid);
     }
 
-    public Page<event> getAllEventInPage(int pagenum, int pagesize, long id) {
+    public Page<event> getUsereventInPage(int pagenum, int pagesize, long id) {
         PageRequest pageRequest = PageRequest.of(pagenum, pagesize, Sort.Direction.DESC);
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), id)).getRestriction(), pageRequest);
     }
 
-    public List<event> getUserEventInList(){
+    public List<event> getUserEventByUid(long id) {
+        return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), id)).getRestriction());
+    }
+
+    public List<event> getAllEventInList(){
         return eventDao.findAll();
     }
 
@@ -79,13 +83,6 @@ public class EventServiceImpl implements EventService {
             map.put("isSucceed",true);
         }
         return map;
-    }
-    public List<event> getUserEventByUid(long id) {
-        return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), id)).getRestriction());
-    }
-
-    public List getEventList() {
-        return getAllEventInPage();
     }
 
     public List<event> getEmergencyEvent(user aUser) {

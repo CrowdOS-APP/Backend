@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import java.io.Serializable;
 
 public interface FollowDao extends JpaRepository<followlist,Long>, JpaSpecificationExecutor<followlist>, Serializable {
+
 }
