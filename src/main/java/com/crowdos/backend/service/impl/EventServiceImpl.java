@@ -66,8 +66,8 @@ public class EventServiceImpl implements EventService {
             Long uid = tokenService.findUidByToken(token).getUid();
             event aEvent = new event();
             aEvent.setContent(info.get("content"));
-            aEvent.setStarttime(new Timestamp(Long.parseLong(info.get("startTime"))));
-            aEvent.setEndtime(new Timestamp(Long.parseLong(info.get("endTime"))));
+            aEvent.setStarttime(Timestamp.valueOf(info.get("startTime")));
+            aEvent.setEndtime(Timestamp.valueOf(info.get("endTime")));
             aEvent.setLongitude(Double.parseDouble(info.get("longitude")));
             aEvent.setLatitude(Double.parseDouble(info.get("latitude")));
             aEvent.setEventname(info.get("eventName"));
