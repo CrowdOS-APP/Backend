@@ -71,6 +71,7 @@ public class EventServiceImpl implements EventService {
             aEvent.setLongitude(Double.parseDouble(info.get("longitude")));
             aEvent.setLatitude(Double.parseDouble(info.get("latitude")));
             aEvent.setEventname(info.get("eventName"));
+            createEvent(aEvent);
             map.put("isSucceed",true);
         }
         return map;
