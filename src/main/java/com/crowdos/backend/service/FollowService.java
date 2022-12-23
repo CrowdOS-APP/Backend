@@ -12,6 +12,6 @@ public interface FollowService {
 
     followlist createFollow(followlist followPair);
     long deleteFollow(Long uid, Long follower);
-    Page<followlist> findFollowerByUid(int pagenum, int pagesize, long uid);
-    Page<followlist> findFollowingByUid(int pagenum,int pagesize,long uid);
+    Page<followlist> findFollowerByUidInPage(int pagenum, int pagesize, long uid);
+    Page<followlist> findFollowingByUidInPage(int pagenum, int pagesize, long uid);
 }
