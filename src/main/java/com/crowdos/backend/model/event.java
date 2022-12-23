@@ -32,13 +32,11 @@ public class event implements Task {
     private Timestamp endtime;
     @Column
     private boolean emergency;
-    @Column
-    private String pictureUrl;
 
     public event() {
     }
 
-    public event(long eventid, String eventname, String content, long longitude, long latitude, Timestamp starttime, Timestamp endtime, boolean emergency, String pictureUrl) {
+    public event(long eventid, String eventname, String content, long longitude, long latitude, Timestamp starttime, Timestamp endtime, boolean emergency) {
         this.eventid = eventid;
         this.eventname = eventname;
         this.content = content;
@@ -47,7 +45,6 @@ public class event implements Task {
         this.starttime = starttime;
         this.endtime = endtime;
         this.emergency = emergency;
-        this.pictureUrl = pictureUrl;
     }
 
     public long getEventid() {
@@ -112,14 +109,6 @@ public class event implements Task {
 
     public void setEmergency(boolean emergency) {
         this.emergency = emergency;
-    }
-
-    public String getPictureUrl() {
-        return pictureUrl;
-    }
-
-    public void setPictureUrl(String pictureUrl) {
-        this.pictureUrl = pictureUrl;
     }
 
     @Override

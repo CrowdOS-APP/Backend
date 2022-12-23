@@ -1,5 +1,6 @@
 package com.crowdos.backend.service.impl;
 
+import cn.crowdos.kernel.algorithms.TaskAssignmentAlgo;
 import com.crowdos.backend.dao.EventDao;
 import com.crowdos.backend.model.event;
 import com.crowdos.backend.service.EventService;
@@ -10,19 +11,20 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService {
     @Autowired
     private EventDao eventDao;
 
+    private TaskAssignmentAlgo taskAssignmentAlgo;
+
+
     public event findEventByEid(Long eventid) {
-        Optional<event> entity = eventDao.findById(eventid);
-        return entity.orElse(null);
+        return eventDao.findById(eventid).orElse(null);
     }
 
     public event createEvent(event newEvent) {
@@ -56,4 +58,5 @@ public class EventServiceImpl implements EventService {
     public List<event> getEventInList(long id) {
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction());
     }
+
 }
