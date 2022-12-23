@@ -43,9 +43,13 @@ public class EventServiceImpl implements EventService {
         eventDao.deleteById(eventid);
     }
 
-    public Page<event> getEventInPage(int pagenum, int pagesize, long id) {
+    public Page<event> getAllEventInPage(int pagenum, int pagesize, long id) {
         PageRequest pageRequest = PageRequest.of(pagenum, pagesize, Sort.Direction.DESC);
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), id)).getRestriction(), pageRequest);
+    }
+
+    public List<event> getUserEventInList(){
+        return eventDao.findAll();
     }
 
     public Map<String, Object> getEvenInfo(long eventId) {
@@ -76,7 +80,7 @@ public class EventServiceImpl implements EventService {
         }
         return map;
     }
-    public List<event> getEventInList(long id) {
+    public List<event> getUserEventByUid(long id) {
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), id)).getRestriction());
     }
 

@@ -13,8 +13,10 @@ public interface CommentService {
     comment createComment(comment newComment);
     comment updateComment(comment newComment);
     void deleteCommentByCid(Long commentid);
-    Page<comment> getCommentInPage(int pagenum, int pagesize, long id, boolean isroot);
-    List<comment> getCommentInList(long id, boolean isroot);
+    Page<comment> getAllCommentInPage(int pagenum, int pagesize, long eid);
+    List<comment> getAllCommentInList(long eid);
+    Page<comment> getUserCommentInPage(int pagenum, int pagesize, long uid);
+    List<comment> getUserCommentInList(long uid);
 
     Map<String, Object> postComment(String token, String eventId, Map<String, String> comment);
 }
