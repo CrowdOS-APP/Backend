@@ -72,4 +72,12 @@ public class FollowServiceImpl implements FollowService {
         }
         return map;
     }
+    public List following(String token){
+        if(tokenService.findUidByToken(token)==null){
+            return null;
+        }else{
+            Long uid = tokenService.findUidByToken(token).getUid();
+            Boolean isFollow = Boolean.parseBoolean(follow.get("isFollow"));
+        }
+    }
 }
