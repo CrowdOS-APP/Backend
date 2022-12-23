@@ -76,8 +76,7 @@ public class FollowServiceImpl implements FollowService {
         if(tokenService.findUidByToken(token)==null){
             return null;
         }else{
-            Long uid = tokenService.findUidByToken(token).getUid();
-            Boolean isFollow = Boolean.parseBoolean(follow.get("isFollow"));
+            return findAllFollowingByUid(tokenService.findUidByToken(token).getUid());
         }
     }
 }
