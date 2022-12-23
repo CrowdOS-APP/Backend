@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -55,5 +56,13 @@ public class FollowServiceImpl implements FollowService {
             map.put("isSucceed",true);
         }
         return map;
+    }
+    public List following(String token){
+        if(tokenService.findUidByToken(token)==null){
+            return null;
+        }else{
+            Long uid = tokenService.findUidByToken(token).getUid();
+            Boolean isFollow = Boolean.parseBoolean(follow.get("isFollow"));
+        }
     }
 }
