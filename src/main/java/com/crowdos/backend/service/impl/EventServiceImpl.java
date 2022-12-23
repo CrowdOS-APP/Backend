@@ -85,7 +85,7 @@ public class EventServiceImpl implements EventService {
     }
 
     public List getEventList() {
-        return null;
+        return getAllEventInPage();
     }
 
     public List<event> getEmergencyEvent(user aUser) {
