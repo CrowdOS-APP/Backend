@@ -13,10 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -163,5 +160,9 @@ public class UserServiceImpl implements UserService {
     }
     public user findUserByEmail(String email){
         return userDao.findOne((Specification<user>) (root, query, builder) -> query.where(builder.equal(root.get("email"),email)).getRestriction()).orElse(null);
+    }
+
+    public List<user> searchUserByString(String keyword){
+        return userDao.findAll((Specification<user>) (root, query, criteriaBuilder) -> query.where(criteriaBuilder.like(root.get("name"),keyword)).getRestriction());
     }
 }

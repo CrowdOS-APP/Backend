@@ -5,6 +5,7 @@ import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -43,5 +44,9 @@ public class UserController {
     public Map<String, Object> updatePasswd(@RequestParam String token,
                                               @RequestBody Map<String, String> passwd) {
         return userService.updatePasswd(token,passwd);
+    }
+    @PostMapping("search")
+    public List search(@RequestParam String keyword){
+        return userService.searchUserByString(keyword);
     }
 }
