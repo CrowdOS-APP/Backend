@@ -2,7 +2,6 @@ package com.crowdos.backend.service.impl;
 
 import com.crowdos.backend.dao.CommentDao;
 import com.crowdos.backend.model.comment;
-import com.crowdos.backend.model.event;
 import com.crowdos.backend.service.CommentService;
 import com.crowdos.backend.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +21,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     TokenService tokenService;
-
-    @Autowired
-    TokenService userService;
     @Autowired
     private CommentDao commentDao;
 

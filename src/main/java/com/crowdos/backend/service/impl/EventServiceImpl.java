@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +23,6 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     TokenService tokenService;
-
-    @Autowired
-    TokenService userService;
     @Autowired
     private EventDao eventDao;
 
@@ -68,10 +66,10 @@ public class EventServiceImpl implements EventService {
             Long uid = tokenService.findUidByToken(token).getUid();
             event aEvent = new event();
             aEvent.setContent(info.get("content"));
-            aEvent.setStarttime(info.get("startTime"));
-            aEvent.setEndtime(info.get("endTime"));
-            aEvent.setLongitude(info.get("longitude"));
-            aEvent.setLatitude(info.get("latitude"));
+            aEvent.setStarttime(new Timestamp(Long.parseLong(info.get("startTime"))));
+            aEvent.setEndtime(new Timestamp(Long.parseLong(info.get("endTime"))));
+            aEvent.setLongitude(Double.parseDouble(info.get("longitude")));
+            aEvent.setLatitude(Double.parseDouble(info.get("latitude")));
             aEvent.setEventname(info.get("eventName"));
             map.put("isSucceed",true);
         }
