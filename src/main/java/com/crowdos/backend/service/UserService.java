@@ -19,4 +19,8 @@ public interface UserService {
     user findUserByEmail(String email);
 
     Map<String, Object> getUserInfo(String token);
+
+    Map<String, Object> updateUserInfo(String token, Map<String, String> signature);
+
+    Map<String, Object> updatePasswd(String token, Map<String, String> passwd);
 }
