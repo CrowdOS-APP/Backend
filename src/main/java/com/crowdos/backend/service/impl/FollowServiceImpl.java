@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ public class FollowServiceImpl implements FollowService {
     public followlist createFollow(followlist followPair){
         return followDao.save(followPair);
     }
+    @Transactional
     public long deleteFollow(Long uid, Long follower){
         return followDao.delete(new Specification<followlist>() {
             @Override
