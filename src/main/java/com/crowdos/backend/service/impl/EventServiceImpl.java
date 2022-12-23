@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +38,9 @@ public class EventServiceImpl implements EventService {
     public Page<event> getEventInPage(int pagenum, int pagesize, long id) {
         PageRequest pageRequest = PageRequest.of(pagenum, pagesize, Sort.Direction.DESC);
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction(), pageRequest);
+    }
+
+    public List<event> getEventInPage(long id) {
+        return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction());
     }
 }

@@ -161,7 +161,7 @@ public class event implements Task {
 
     @Override
     public boolean canAssignTo(Participant participant) {
-        return false;
+//        if(participant.available()&& participant.hasAbility())
     }
 
     @Override
