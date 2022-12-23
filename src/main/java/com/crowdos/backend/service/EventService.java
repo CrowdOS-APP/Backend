@@ -26,4 +26,6 @@ public interface EventService {
     List getComment(String token, Long eventId);
 
     Map<String, Object> postComment(String token, Long eventId, Map<String, String> comment);
+
+    List getEmergencyList(String token, Map<String, Double> info);
 }

@@ -7,6 +7,7 @@ import com.crowdos.backend.model.user;
 import com.crowdos.backend.service.CommentService;
 import com.crowdos.backend.service.EventService;
 import com.crowdos.backend.service.TokenService;
+import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,6 +29,10 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     CommentService commentService;
+
+    @Autowired
+    UserService userService;
+
     @Autowired
     private EventDao eventDao;
 
@@ -126,5 +131,17 @@ public class EventServiceImpl implements EventService {
             map.put("isSucceed",true);
         }
         return map;
+    }
+
+    public List getEmergencyList(String token, Map<String, Double> info){
+        if(tokenService.findUidByToken(token)==null){
+            return null;
+        }else{
+            Long uid = tokenService.findUidByToken(token).getUid();
+            user aUser = userService.findUserById(uid);
+            aUser.setLongitude(info.get("longitude"));
+            aUser.setLatitude(info.get("latitude"));
+            return getEmergencyEvent(aUser);
+        }
     }
 }

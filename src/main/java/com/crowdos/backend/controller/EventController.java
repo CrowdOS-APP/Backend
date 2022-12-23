@@ -42,4 +42,10 @@ public class EventController {
                             @RequestBody Map<String, String> comment){
         return eventService.postComment(token,eventId,comment);
     }
+
+    @GetMapping("/getEmergencyList")
+    public  List getEmergencyList(@RequestParam String token,
+                                  @RequestBody Map<String, Double> info){
+        return eventService.getEmergencyList(token,info);
+    }
 }
