@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "event")
 public class event implements Task {
     @Id
-    @Column(name="eventid")
+    @Column(name = "eventid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long eventid;
     @Column
@@ -129,11 +129,10 @@ public class event implements Task {
 
     @Override
     public TaskStatus getTaskStatus() {
-        long time=new Date().getTime();
-        if(time>=starttime.getTime()&&time<=endtime.getTime()){
+        long time = new Date().getTime();
+        if (time >= starttime.getTime() && time <= endtime.getTime()) {
             return TaskStatus.READY;
-        }
-        else if(time>=endtime.getTime())
+        } else if (time >= endtime.getTime())
             return TaskStatus.FINISHED;
         else
             return TaskStatus.IN_PROGRESS;
@@ -145,14 +144,14 @@ public class event implements Task {
 
     @Override
     public List<Constraint> constraints() {
-    List<Constraint> constraintList=new ArrayList<>();
+        List<Constraint> constraintList = new ArrayList<>();
         try {
-            constraintList.add(new SimpleSpatioConstraint(new Coordinate(longitude-0.02,this.latitude-0.02),new Coordinate(longitude+0.02,this.latitude+0.02)));
+            constraintList.add(new SimpleSpatioConstraint(new Coordinate(longitude - 0.02, this.latitude - 0.02), new Coordinate(longitude + 0.02, this.latitude + 0.02)));
         } catch (InvalidConstraintException e) {
             throw new RuntimeException(e);
         }
         try {
-            constraintList.add(new SimpleTimeConstraint(starttime,endtime));
+            constraintList.add(new SimpleTimeConstraint(starttime, endtime));
         } catch (InvalidConstraintException e) {
             throw new RuntimeException(e);
         }
@@ -161,17 +160,27 @@ public class event implements Task {
 
     @Override
     public boolean canAssignTo(Participant participant) {
-//        if(participant.available()&& participant.hasAbility())
+        if ((participant instanceof user) && participant.available()) {
+            {
+                return (Double.valueOf(((user) participant).getLongitude()).compareTo(Double.valueOf(longitude - 0.02)) > 0)
+                        && (Double.valueOf(((user) participant).getLongitude()).compareTo(Double.valueOf(longitude + 0.02)) < 0)
+                        && (Double.valueOf(((user) participant).getLatitude()).compareTo(Double.valueOf(latitude - 0.02)) > 0)
+                        && (Double.valueOf(((user) participant).getLatitude()).compareTo(Double.valueOf(latitude + 0.02)) < 0)
+                        && (new Date().getTime()>=starttime.getTime())
+                        && (new Date().getTime()<=endtime.getTime());
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean assignable() {
-        return false;
+        return getTaskStatus() == TaskStatus.READY;
     }
 
     @Override
     public boolean finished() {
-        return false;
+        return getTaskStatus() == TaskStatus.FINISHED;
     }
 
     @Override

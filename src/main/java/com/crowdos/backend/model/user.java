@@ -1,10 +1,16 @@
 package com.crowdos.backend.model;
 
+import cn.crowdos.kernel.constraint.Condition;
+import cn.crowdos.kernel.constraint.wrapper.LongCondition;
+import cn.crowdos.kernel.constraint.wrapper.PrimitiveCondition;
+import cn.crowdos.kernel.resource.Participant;
 import jakarta.persistence.*;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "user")
-public class user {
+public class user implements Participant {
     @Id
     @Column(name = "uid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,6 +101,32 @@ public class user {
 
     public void setLatitude(long latitude) {
         this.latitude = latitude;
+    }
+
+    @Override
+    public ParticipantStatus getStatus() {
+        return ParticipantStatus.AVAILABLE;
+    }
+
+    @Override
+    public void setStatus(ParticipantStatus participantStatus) {}
+
+    @Override
+    public boolean hasAbility(Class<? extends Condition> aClass) {
+        if(aClass== LongCondition.class){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Condition getAbility(Class<? extends Condition> aClass) {
+        return new PrimitiveCondition<Long>((new Date()).getTime()) {};
+    }
+
+    @Override
+    public boolean available() {
+        return getStatus()==ParticipantStatus.AVAILABLE;
     }
 }
 
