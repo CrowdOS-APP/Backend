@@ -11,6 +11,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -38,6 +40,17 @@ public class EventServiceImpl implements EventService {
     public Page<event> getEventInPage(int pagenum, int pagesize, long id) {
         PageRequest pageRequest = PageRequest.of(pagenum, pagesize, Sort.Direction.DESC);
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"), id)).getRestriction(), pageRequest);
+    }
+
+    public Map<String, Object> getEvenInfo(long eventId) {
+        Map<String, Object> map = new HashMap<>(5);
+        event aEvent = findEventByEid(eventId);
+        map.put("longitude",aEvent.getLongitude());
+        map.put("latitude",aEvent.getLatitude());
+        map.put("startTime",aEvent.getStarttime().toString());
+        map.put("endTime",aEvent.getEndtime().toString());
+        map.put("content",aEvent.getContent());
+        return map;
     }
 
     public List<event> getEventInList(long id) {
