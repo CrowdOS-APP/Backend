@@ -20,4 +20,5 @@ public interface EventService {
     Map<String, Object> getEvenInfo(long eventId);
     List<event> getEmergencyEvent(user aUser);
 
+    Map<String, Object> uploadEvenInfo(String token, Map<String, String> info);
 }

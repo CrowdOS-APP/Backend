@@ -4,6 +4,7 @@ import com.crowdos.backend.dao.EventDao;
 import com.crowdos.backend.model.event;
 import com.crowdos.backend.model.user;
 import com.crowdos.backend.service.EventService;
+import com.crowdos.backend.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +19,12 @@ import java.util.Map;
 
 @Service
 public class EventServiceImpl implements EventService {
+
+    @Autowired
+    TokenService tokenService;
+
+    @Autowired
+    TokenService userService;
     @Autowired
     private EventDao eventDao;
 
@@ -53,7 +60,23 @@ public class EventServiceImpl implements EventService {
         map.put("content", aEvent.getContent());
         return map;
     }
-
+    public Map<String, Object> uploadEvenInfo(String token, Map<String, String> info){
+        Map<String, Object> map = new HashMap<>(1);
+        if(tokenService.findUidByToken(token)==null){
+            map.put("isSucceed",false);
+        }else{
+            Long uid = tokenService.findUidByToken(token).getUid();
+            event aEvent = new event();
+            aEvent.setContent(info.get("content"));
+            aEvent.setStarttime(info.get("startTime"));
+            aEvent.setEndtime(info.get("endTime"));
+            aEvent.setLongitude(info.get("longitude"));
+            aEvent.setLatitude(info.get("latitude"));
+            aEvent.setEventname(info.get("eventName"));
+            map.put("isSucceed",true);
+        }
+        return map;
+    }
     public List<event> getEventInList(long id) {
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), id)).getRestriction());
     }

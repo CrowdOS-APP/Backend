@@ -16,4 +16,8 @@ public class EventController {
     public  Map<String, Object> getEvenInfo(long eventId){
         return eventService.getEvenInfo(eventId);
     }
+    public  Map<String, Object> uploadEvenInfo(@RequestParam String token,
+            @RequestBody Map<String, String> info){
+        return eventService.uploadEvenInfo(token,info);
+    }
 }
