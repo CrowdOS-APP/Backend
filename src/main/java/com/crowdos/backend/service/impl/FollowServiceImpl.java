@@ -4,17 +4,12 @@ import com.crowdos.backend.dao.FollowDao;
 import com.crowdos.backend.model.followlist;
 import com.crowdos.backend.service.FollowService;
 import com.crowdos.backend.service.TokenService;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,14 +26,14 @@ public class FollowServiceImpl implements FollowService {
     public followlist createFollow(followlist followPair){
         return followDao.save(followPair);
     }
-    @Transactional
     public long deleteFollow(Long uid, Long follower){
-        return followDao.delete(new Specification<followlist>() {
-            @Override
-            public Predicate toPredicate(Root<followlist> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-                return query.where(builder.and(builder.equal(root.get("uid"),uid),builder.equal(root.get("follower"),follower))).getRestriction();
-            }
-        });
+        int cnt=0;
+        var entities=followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.and(builder.equal(root.get("uid"),uid),builder.equal(root.get("follower"),follower))).getRestriction());
+        for(var entity:entities){
+            followDao.delete(entity);
+            cnt++;
+        }
+        return cnt;
     }
     public Page<followlist> findFollowerByUidInPage(int pagenum, int pagesize, long uid){
         PageRequest pageRequest=PageRequest.of(pagenum,pagesize, Sort.Direction.DESC);
