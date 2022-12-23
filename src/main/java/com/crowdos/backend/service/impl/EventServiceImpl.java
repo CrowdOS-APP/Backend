@@ -89,6 +89,7 @@ public class EventServiceImpl implements EventService {
             aEvent.setLongitude(Double.parseDouble(info.get("longitude")));
             aEvent.setLatitude(Double.parseDouble(info.get("latitude")));
             aEvent.setEventname(info.get("eventName"));
+            aEvent.setEmergency(Boolean.parseBoolean(info.get("isEmergency")));
             createEvent(aEvent);
             map.put("isSucceed",true);
         }
@@ -142,6 +143,14 @@ public class EventServiceImpl implements EventService {
             aUser.setLongitude(info.get("longitude"));
             aUser.setLatitude(info.get("latitude"));
             return getEmergencyEvent(aUser);
+        }
+    }
+    public List myEventList(String token){
+        if(tokenService.findUidByToken(token)==null){
+            return null;
+        }else{
+            Long uid = tokenService.findUidByToken(token).getUid();
+            return getUserEventByUid(uid);
         }
     }
 }

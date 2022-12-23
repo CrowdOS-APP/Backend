@@ -19,4 +19,6 @@ public interface CommentService {
     List<comment> getUserCommentInList(long uid);
 
     Map<String, Object> postComment(String token, String eventId, Map<String, String> comment);
+
+    List myComment(String token);
 }

@@ -48,4 +48,8 @@ public class EventController {
                                   @RequestBody Map<String, Double> info){
         return eventService.getEmergencyList(token,info);
     }
+    @GetMapping("/myEventList")
+    public  List myEventList(@RequestParam String token){
+        return eventService.myEventList(token);
+    }
 }

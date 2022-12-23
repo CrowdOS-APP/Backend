@@ -69,4 +69,12 @@ public class CommentServiceImpl implements CommentService {
         }
         return map;
     }
+    public List myComment(String token){
+        if(tokenService.findUidByToken(token)==null){
+            return null;
+        }else{
+            Long uid = tokenService.findUidByToken(token).getUid();
+            return getUserCommentInList(uid);
+        }
+    }
 }
