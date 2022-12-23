@@ -18,6 +18,9 @@ public class event implements Task {
     @Column(name = "eventid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long eventid;
+
+    @Column
+    private long uid;
     @Column
     private String eventname;
     @Column
@@ -36,8 +39,9 @@ public class event implements Task {
     public event() {
     }
 
-    public event(long eventid, String eventname, String content, long longitude, long latitude, Timestamp starttime, Timestamp endtime, boolean emergency) {
+    public event(long eventid, long uid, String eventname, String content, double longitude, double latitude, Timestamp starttime, Timestamp endtime, boolean emergency) {
         this.eventid = eventid;
+        this.uid = uid;
         this.eventname = eventname;
         this.content = content;
         this.longitude = longitude;
@@ -53,6 +57,14 @@ public class event implements Task {
 
     public void setEventid(long eventid) {
         this.eventid = eventid;
+    }
+
+    public long getUid() {
+        return uid;
+    }
+
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 
     public String getEventname() {
@@ -75,7 +87,7 @@ public class event implements Task {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -83,7 +95,7 @@ public class event implements Task {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 

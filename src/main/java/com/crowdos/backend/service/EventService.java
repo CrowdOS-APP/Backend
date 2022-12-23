@@ -1,6 +1,7 @@
 package com.crowdos.backend.service;
 
 import com.crowdos.backend.model.event;
+import com.crowdos.backend.model.user;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
@@ -17,5 +18,6 @@ public interface EventService {
     List<event> getEventInList(long id);
 
     Map<String, Object> getEvenInfo(long eventId);
+    List<event> getEmergencyEvent(user aUser);
 
 }

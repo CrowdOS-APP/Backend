@@ -29,24 +29,25 @@ public class user implements Participant {
     public user() {
     }
 
-    public user(long uid, String email, String passwd, String name, int privilege, String signature,long longitude, long latitude) {
-        this.longitude = longitude;
-        this.latitude = latitude;
+    public user(long uid, String email, String passwd, String name, int privilege, String signature, double longitude, double latitude) {
         this.uid = uid;
         this.email = email;
         this.passwd = passwd;
         this.name = name;
         this.privilege = privilege;
         this.signature = signature;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public long getUid() {
         return uid;
     }
 
-//    public void setUid(long uid) {
-//        this.uid = uid;
-//    }
+    public void setUid(long uid) {
+        this.uid = uid;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -91,7 +92,7 @@ public class user implements Participant {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -99,7 +100,7 @@ public class user implements Participant {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 

@@ -60,16 +60,19 @@ public class UserServiceImpl implements UserService {
         String email = register.get("email");
         String passwd = register.get("passwd");
 //        System.out.println("out: " + createToken(email));
-        user aUser = new user();
-        aUser.setEmail(email);
-        aUser.setPasswd(passwd);
-        createUser(aUser);
-        token Token=new token();
-        Token.setUid(aUser.getUid());
-        Token.setToken(createToken(aUser.getEmail()));
-        tokenService.createToken(Token);
+        if(findUserByEmail(email)==null){
+            user aUser = new user();
+            aUser.setEmail(email);
+            aUser.setPasswd(passwd);
+            createUser(aUser);
+            token Token=new token();
+            Token.setUid(aUser.getUid());
+            Token.setToken(createToken(aUser.getEmail()));
+            tokenService.createToken(Token);
+            return Boolean.TRUE;
+        }
 
-        return Boolean.TRUE;
+        return Boolean.FALSE;
     }
     public String login(Map<String, String> login) {
 
@@ -78,8 +81,15 @@ public class UserServiceImpl implements UserService {
         user aUser = findUserByEmail(email);
         if(aUser == null ) return "";
         else if(aUser.getPasswd().equals(passwd)) {
-            String token = tokenService.findTokenByUid(aUser.getUid()).getToken();
-            return token;
+            var someToken=tokenService.findTokenByUid(aUser.getUid());
+            if(someToken==null){
+                token Token=new token();
+                Token.setUid(aUser.getUid());
+                Token.setToken(createToken(aUser.getEmail()));
+                tokenService.createToken(Token);
+                return Token.getToken();
+            }
+            else return someToken.getToken();
         }else return "";
     }
 
