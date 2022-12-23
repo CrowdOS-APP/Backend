@@ -23,9 +23,9 @@ public class event implements Task {
     @Column
     private String content;
     @Column
-    private long longitude;
+    private double longitude;
     @Column
-    private long latitude;
+    private double latitude;
     @Column
     private Timestamp starttime;
     @Column
@@ -71,7 +71,7 @@ public class event implements Task {
         this.content = content;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -79,7 +79,7 @@ public class event implements Task {
         this.longitude = longitude;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -151,10 +151,10 @@ public class event implements Task {
     public boolean canAssignTo(Participant participant) {
         if ((participant instanceof user) && participant.available()) {
             {
-                return (Double.valueOf(((user) participant).getLongitude()).compareTo(Double.valueOf(longitude - 0.02)) > 0)
-                        && (Double.valueOf(((user) participant).getLongitude()).compareTo(Double.valueOf(longitude + 0.02)) < 0)
-                        && (Double.valueOf(((user) participant).getLatitude()).compareTo(Double.valueOf(latitude - 0.02)) > 0)
-                        && (Double.valueOf(((user) participant).getLatitude()).compareTo(Double.valueOf(latitude + 0.02)) < 0)
+                return (Double.compare(((user) participant).getLongitude(), longitude - 0.02) > 0)
+                        && (Double.compare(((user) participant).getLongitude(), longitude + 0.02) < 0)
+                        && (Double.compare(((user) participant).getLatitude(), latitude - 0.02) > 0)
+                        && (Double.compare(((user) participant).getLatitude(), latitude + 0.02) < 0)
                         && (new Date().getTime()>=starttime.getTime())
                         && (new Date().getTime()<=endtime.getTime());
             }

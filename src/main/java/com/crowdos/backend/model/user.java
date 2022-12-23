@@ -1,7 +1,7 @@
 package com.crowdos.backend.model;
 
 import cn.crowdos.kernel.constraint.Condition;
-import cn.crowdos.kernel.constraint.wrapper.LongCondition;
+import cn.crowdos.kernel.constraint.wrapper.DoubleCondition;
 import cn.crowdos.kernel.constraint.wrapper.PrimitiveCondition;
 import cn.crowdos.kernel.resource.Participant;
 import jakarta.persistence.*;
@@ -23,9 +23,9 @@ public class user implements Participant {
     private String signature;
 
     @Transient
-    private long longitude;
+    private double longitude;
     @Transient
-    private long latitude;
+    private double latitude;
     public user() {
     }
 
@@ -87,7 +87,7 @@ public class user implements Participant {
         this.signature = signature;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
@@ -95,7 +95,7 @@ public class user implements Participant {
         this.longitude = longitude;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
@@ -113,15 +113,13 @@ public class user implements Participant {
 
     @Override
     public boolean hasAbility(Class<? extends Condition> aClass) {
-        if(aClass== LongCondition.class){
-            return true;
-        }
-        return false;
+        return aClass == DoubleCondition.class;
     }
 
     @Override
     public Condition getAbility(Class<? extends Condition> aClass) {
-        return new PrimitiveCondition<Long>((new Date()).getTime()) {};
+        return new PrimitiveCondition<>((new Date()).getTime()) {
+        };
     }
 
     @Override
