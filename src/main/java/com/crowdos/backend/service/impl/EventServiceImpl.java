@@ -80,6 +80,10 @@ public class EventServiceImpl implements EventService {
         return eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), id)).getRestriction());
     }
 
+    public List getEventList() {
+        return null;
+    }
+
     public List<event> getEmergencyEvent(user aUser) {
         var list0 = eventDao.findAll((Specification<event>) (root, query, criteriaBuilder) -> query.where(criteriaBuilder.and(
                         criteriaBuilder.equal(root.get("emergency"), true)),

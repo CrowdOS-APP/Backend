@@ -21,4 +21,6 @@ public interface EventService {
     List<event> getEmergencyEvent(user aUser);
 
     Map<String, Object> uploadEvenInfo(String token, Map<String, String> info);
+
+    List getEventList();
 }

@@ -4,6 +4,7 @@ import com.crowdos.backend.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,5 +22,10 @@ public class EventController {
     public  Map<String, Object> uploadEvenInfo(@RequestParam String token,
             @RequestBody Map<String, String> info){
         return eventService.uploadEvenInfo(token,info);
+    }
+
+    @GetMapping("/getEventList")
+    public List getEventList(){
+        return eventService.getEventList();
     }
 }
