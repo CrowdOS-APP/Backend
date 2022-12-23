@@ -121,6 +121,7 @@ public class EventServiceImpl implements EventService {
             comment aComment = new comment();
             aComment.setContent(comment.get("comment"));
             aComment.setUid(tokenService.findUidByToken(token).getUid());
+            aComment.setEventid(eventId);
             commentService.createComment(aComment);
             map.put("isSucceed",true);
         }
