@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Component
 public interface FollowService {
-    Map<String, Object> follow(String token, Long UID, Map<String, String> follow);
+    Map<String, Object> follow(String token, Long eventID, Map<String, String> follow);
 
     followlist createFollow(followlist followPair);
     long deleteFollow(Long uid, Long follower);

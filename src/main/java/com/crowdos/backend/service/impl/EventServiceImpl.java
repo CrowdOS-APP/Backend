@@ -3,6 +3,7 @@ package com.crowdos.backend.service.impl;
 import com.crowdos.backend.dao.EventDao;
 import com.crowdos.backend.model.comment;
 import com.crowdos.backend.model.event;
+import com.crowdos.backend.model.token;
 import com.crowdos.backend.model.user;
 import com.crowdos.backend.service.CommentService;
 import com.crowdos.backend.service.EventService;
@@ -88,8 +89,8 @@ public class EventServiceImpl implements EventService {
             aEvent.setEndtime(Timestamp.valueOf(info.get("endTime")));
             aEvent.setLongitude(Double.parseDouble(info.get("longitude")));
             aEvent.setLatitude(Double.parseDouble(info.get("latitude")));
-            aEvent.setEventname(info.get("eventName"));
-            aEvent.setEmergency(Boolean.parseBoolean(info.get("isEmergency")));
+            aEvent.setEventname(info.get("title"));
+            aEvent.setEmergency(Boolean.parseBoolean(info.get("isUrgent")));
             createEvent(aEvent);
             map.put("isSucceed",true);
         }
@@ -112,12 +113,24 @@ public class EventServiceImpl implements EventService {
         }
         return list;
     }
-    public List getComment(String token, Long eventId) {
-        if(tokenService.findUidByToken(token)==null){
-            return null;
-        }else{
-            return commentService.getAllCommentInList(eventId);
+
+    public List<event> getEventsNearBy(user aUser) {
+        var list0 = eventDao.findAll((Specification<event>) (root, query, criteriaBuilder) -> query.where(criteriaBuilder.and(
+                criteriaBuilder.lessThanOrEqualTo(root.get("longitude"), aUser.getLongitude() + 0.02),
+                criteriaBuilder.greaterThanOrEqualTo(root.get("longitude"), aUser.getLongitude() - 0.02),
+                criteriaBuilder.lessThanOrEqualTo(root.get("latitude"), aUser.getLatitude() + 0.02),
+                criteriaBuilder.greaterThanOrEqualTo(root.get("latitude"), aUser.getLatitude() - 0.02))).getRestriction());
+        List<event> list = new ArrayList<>();
+        for(var entity:list0){
+            if(entity.canAssignTo(aUser)){
+                list.add(entity);
+            }
         }
+        return list;
+    }
+    public List<comment> getComment(token Token, Long eventId) {
+        if(Token==null) return null;
+        else return commentService.getAllCommentInList(eventId);
     }
     public Map<String, Object> postComment(String token, Long eventId, Map<String, String> comment){
         Map<String, Object> map = new HashMap<>(1);
@@ -135,16 +148,30 @@ public class EventServiceImpl implements EventService {
     }
 
     public List getEmergencyList(String token, Map<String, Double> info){
-        if(tokenService.findUidByToken(token)==null){
+        var Token=tokenService.findUidByToken(token);
+        if(Token==null){
             return null;
         }else{
-            Long uid = tokenService.findUidByToken(token).getUid();
+            Long uid = Token.getUid();
             user aUser = userService.findUserById(uid);
             aUser.setLongitude(info.get("longitude"));
             aUser.setLatitude(info.get("latitude"));
             return getEmergencyEvent(aUser);
         }
     }
+    public List getNearByEventList(String token,double longitude,double latitude){
+        var Token=tokenService.findUidByToken(token);
+        if(Token==null){
+            return null;
+        }else{
+            Long uid = Token.getUid();
+            user aUser = userService.findUserById(uid);
+            aUser.setLongitude(longitude);
+            aUser.setLatitude(latitude);
+            return getEventsNearBy(aUser);
+        }
+    }
+
     public List myEventList(String token){
         if(tokenService.findUidByToken(token)==null){
             return null;

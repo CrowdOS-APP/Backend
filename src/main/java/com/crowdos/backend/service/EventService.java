@@ -1,6 +1,8 @@
 package com.crowdos.backend.service;
 
+import com.crowdos.backend.model.comment;
 import com.crowdos.backend.model.event;
+import com.crowdos.backend.model.token;
 import com.crowdos.backend.model.user;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -23,11 +25,13 @@ public interface EventService {
 
     Map<String, Object> uploadEvenInfo(String token, Map<String, String> info);
 
-    List getComment(String token, Long eventId);
+    List<comment> getComment(token Token, Long eventId);
 
     Map<String, Object> postComment(String token, Long eventId, Map<String, String> comment);
 
     List getEmergencyList(String token, Map<String, Double> info);
+
+    List getNearByEventList(String token,double longitude,double latitude);
 
     List<event> myEventList(String token);
 }
