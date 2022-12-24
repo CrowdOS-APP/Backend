@@ -29,5 +29,5 @@ public interface EventService {
 
     List getEmergencyList(String token, Map<String, Double> info);
 
-    List myEventList(String token);
+    List<event> myEventList(String token);
 }

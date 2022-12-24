@@ -35,19 +35,19 @@ public class FollowServiceImpl implements FollowService {
         }
         return cnt;
     }
-    public Page<followlist> findFollowerByUidInPage(int pagenum, int pagesize, long uid){
+    public Page<followlist> findFollowingEventByUidInPage(int pagenum, int pagesize, long uid){
         PageRequest pageRequest=PageRequest.of(pagenum,pagesize, Sort.Direction.DESC);
         return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("uid"),uid)).getRestriction(), pageRequest);
     }
-    public Page<followlist> findFollowingByUidInPage(int pagenum, int pagesize, long uid){
+    public Page<followlist> findEventFollowerByEidInPage(int pagenum, int pagesize, long eid){
         PageRequest pageRequest=PageRequest.of(pagenum,pagesize);
-        return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("follower"),uid)).getRestriction(), pageRequest);
+        return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("eventid"),eid)).getRestriction(), pageRequest);
     }
-    public List<followlist> findAllFollowerByUid(long uid){
+    public List<followlist> findFollowingEventByUid(long uid){
         return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("uid"),uid)).getRestriction());
     }
-    public List<followlist> findAllFollowingByUid(long uid){
-        return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("follower"),uid)).getRestriction());
+    public List<followlist> findEventFollowerByEid(long eid){
+        return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("follower"),eid)).getRestriction());
     }
 
     public Map<String, Object> follow(String token, Long UID, Map<String, String> follow) {
@@ -60,7 +60,7 @@ public class FollowServiceImpl implements FollowService {
             if(isFollow){
                 followlist aFollow = new followlist();
                 aFollow.setUid(UID);
-                aFollow.setFollower(uid);
+                aFollow.setEventid(uid);
                 createFollow(aFollow);
             }else{
                 deleteFollow(UID,uid);
@@ -73,7 +73,7 @@ public class FollowServiceImpl implements FollowService {
         if(tokenService.findUidByToken(token)==null){
             return null;
         }else{
-            return findAllFollowingByUid(tokenService.findUidByToken(token).getUid());
+            return findEventFollowerByEid(tokenService.findUidByToken(token).getUid());
         }
     }
 }

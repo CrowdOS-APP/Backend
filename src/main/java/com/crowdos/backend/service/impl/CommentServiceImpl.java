@@ -2,6 +2,7 @@ package com.crowdos.backend.service.impl;
 
 import com.crowdos.backend.dao.CommentDao;
 import com.crowdos.backend.model.comment;
+import com.crowdos.backend.model.token;
 import com.crowdos.backend.service.CommentService;
 import com.crowdos.backend.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,11 +70,13 @@ public class CommentServiceImpl implements CommentService {
         }
         return map;
     }
-    public List myComment(String token){
-        if(tokenService.findUidByToken(token)==null){
+
+    public List<comment> myComment(String aToken){
+        token Token=tokenService.findUidByToken(aToken);
+        if(Token==null){
             return null;
         }else{
-            Long uid = tokenService.findUidByToken(token).getUid();
+            Long uid = Token.getUid();
             return getUserCommentInList(uid);
         }
     }

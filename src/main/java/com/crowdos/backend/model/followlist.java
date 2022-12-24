@@ -11,16 +11,16 @@ public class followlist {
     private long id;
     @Column(name = "uid")
     private long uid;
-    @Column(name = "follower")
-    private long follower;
+    @Column(name = "eventid")
+    private long eventid;
 
     public followlist() {
     }
 
-    public followlist(long id, long uid, long follower) {
+    public followlist(long id, long uid, long eventid) {
         this.id = id;
         this.uid = uid;
-        this.follower = follower;
+        this.eventid = eventid;
     }
 
     public long getId() {
@@ -39,11 +39,11 @@ public class followlist {
         this.uid = uid;
     }
 
-    public long getFollower() {
-        return follower;
+    public long getEventid() {
+        return eventid;
     }
 
-    public void setFollower(long follower) {
-        this.follower = follower;
+    public void setEventid(long follower) {
+        this.eventid = follower;
     }
 }

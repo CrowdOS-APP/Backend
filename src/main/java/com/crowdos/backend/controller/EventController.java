@@ -1,10 +1,11 @@
 package com.crowdos.backend.controller;
 
-import com.crowdos.backend.service.CommentService;
+import com.crowdos.backend.model.event;
 import com.crowdos.backend.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,11 @@ public class EventController {
         return eventService.getEmergencyList(token,info);
     }
     @GetMapping("/myEventList")
-    public  List myEventList(@RequestParam String token){
-        return eventService.myEventList(token);
+    public  List<event> myEventList(@RequestParam String token){
+        List<event> eventList=eventService.myEventList(token);
+        if(eventList!=null){
+            return eventList;
+        }
+        return new ArrayList<>();
     }
 }
