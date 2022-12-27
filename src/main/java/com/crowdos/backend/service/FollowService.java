@@ -13,6 +13,7 @@ public interface FollowService {
 
     followlist createFollow(followlist followPair);
     long deleteFollow(Long uid, Long follower);
+    boolean checkIfFollowed(long uid,long eventid);
     Page<followlist> findFollowingEventByUidInPage(int pagenum, int pagesize, long uid);
     Page<followlist> findEventFollowerByEidInPage(int pagenum, int pagesize, long uid);
 

@@ -5,10 +5,7 @@ import com.crowdos.backend.model.comment;
 import com.crowdos.backend.model.event;
 import com.crowdos.backend.model.token;
 import com.crowdos.backend.model.user;
-import com.crowdos.backend.service.CommentService;
-import com.crowdos.backend.service.EventService;
-import com.crowdos.backend.service.TokenService;
-import com.crowdos.backend.service.UserService;
+import com.crowdos.backend.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +30,9 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    FollowService followService;
 
     @Autowired
     private EventDao eventDao;
@@ -67,14 +67,21 @@ public class EventServiceImpl implements EventService {
         return eventDao.findAll();
     }
 
-    public Map<String, Object> getEvenInfo(long eventId) {
+    public Map<String, Object> getEvenInfo(String token, long eventId) {
         Map<String, Object> map = new HashMap<>(5);
-        event aEvent = findEventByEid(eventId);
-        map.put("longitude", aEvent.getLongitude());
-        map.put("latitude", aEvent.getLatitude());
-        map.put("startTime", aEvent.getStarttime().toString());
-        map.put("endTime", aEvent.getEndtime().toString());
-        map.put("content", aEvent.getContent());
+        var Token=tokenService.findUidByToken(token);
+        if(Token!=null){
+            event aEvent = findEventByEid(eventId);
+            if(aEvent!=null){
+                map.put("longitude", aEvent.getLongitude());
+                map.put("latitude", aEvent.getLatitude());
+                map.put("startTime", aEvent.getStarttime().toString());
+                map.put("endTime", aEvent.getEndtime().toString());
+                map.put("content", aEvent.getContent());
+                map.put("eventName",aEvent.getEventname());
+                map.put("isFollowed",followService.checkIfFollowed(Token.getUid(),aEvent.getEventid()));
+            }
+        }
         return map;
     }
     public Map<String, Object> uploadEvenInfo(String token, Map<String, String> info){

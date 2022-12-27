@@ -36,6 +36,11 @@ public class FollowServiceImpl implements FollowService {
         }
         return cnt;
     }
+
+    public boolean checkIfFollowed(long uid,long eventid){
+        return followDao.exists((Specification<followlist>) (root, query, criteriaBuilder) -> query.where(criteriaBuilder.and(criteriaBuilder.equal(root.get("uid"),uid),criteriaBuilder.equal(root.get("eventid"),eventid))).getRestriction());
+    }
+
     public Page<followlist> findFollowingEventByUidInPage(int pagenum, int pagesize, long uid){
         PageRequest pageRequest=PageRequest.of(pagenum,pagesize, Sort.Direction.DESC);
         return followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.equal(root.get("uid"),uid)).getRestriction(), pageRequest);

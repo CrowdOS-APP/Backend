@@ -19,7 +19,7 @@ public interface EventService {
     Page<event> getUsereventInPage(int pagenum, int pagesize, long id);
     List<event> getUserEventByUid(long id);
 
-    Map<String, Object> getEvenInfo(long eventId);
+    Map<String, Object> getEvenInfo(String token, long eventId);
     List<event> getEmergencyEvent(user aUser);
     List<event> getAllEventInList();
 

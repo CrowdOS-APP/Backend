@@ -1,7 +1,9 @@
 package com.crowdos.backend.controller;
 
 import com.crowdos.backend.model.event;
+import com.crowdos.backend.model.user;
 import com.crowdos.backend.service.EventService;
+import com.crowdos.backend.service.FollowService;
 import com.crowdos.backend.service.TokenService;
 import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,16 @@ public class EventController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private FollowService followService;
 
-    @GetMapping("/getEvenInfo")
-    public  Map<String, Object> getEvenInfo(long eventId){
-        return eventService.getEvenInfo(eventId);
+
+    @GetMapping("/getEventInfo")
+    public  Map<String, Object> getEvenInfo(@RequestParam String token,@RequestParam long eventId){
+        return eventService.getEvenInfo(token,eventId);
     }
 
-    @PostMapping("/uploadEvenInfo")
+    @PostMapping("/uploadEventInfo")
     public  Map<String, Object> uploadEvenInfo(@RequestParam String token,
             @RequestBody Map<String, String> info){
         return eventService.uploadEvenInfo(token,info);
@@ -69,7 +74,26 @@ public class EventController {
     @GetMapping("/getEmergencyList")
     public  List getEmergencyList(@RequestParam String token,
                                   @RequestBody Map<String, Double> info){
-        return eventService.getEmergencyList(token,info);
+        var Token=tokenService.findUidByToken(token);
+        List<Map<String,Object>> response=new ArrayList<>();
+        if(Token!=null){
+            Long uid = Token.getUid();
+            user aUser = userService.findUserById(uid);
+            aUser.setLongitude(info.get("longitude"));
+            aUser.setLatitude(info.get("latitude"));
+            var eventlist=eventService.getEmergencyEvent(aUser);
+            for(var evententity:eventlist){
+                Map<String,Object> responseItem=new HashMap<>();
+                responseItem.put("longitude",evententity.getLongitude());
+                responseItem.put("latitude",evententity.getLatitude());
+                responseItem.put("eventname",evententity.getEventname());
+                responseItem.put("eventid",evententity.getEventid());
+                responseItem.put("isFollowed",followService.checkIfFollowed(uid,evententity.getEventid()));
+                responseItem.put("content",evententity.getContent());
+                response.add(responseItem);
+            }
+        }
+        return response;
     }
 
     @GetMapping("/getEventsNearby")
