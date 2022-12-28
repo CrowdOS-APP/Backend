@@ -67,7 +67,7 @@ public class EventServiceImpl implements EventService {
         return eventDao.findAll();
     }
 
-    public Map<String, Object> getEvenInfo(String token, long eventId) {
+    public Map<String, Object> getEventInfo(String token, long eventId) {
         Map<String, Object> map = new HashMap<>(5);
         var Token=tokenService.findUidByToken(token);
         if(Token!=null){
@@ -75,8 +75,8 @@ public class EventServiceImpl implements EventService {
             if(aEvent!=null){
                 map.put("longitude", aEvent.getLongitude());
                 map.put("latitude", aEvent.getLatitude());
-                map.put("startTime", aEvent.getStarttime().toString());
-                map.put("endTime", aEvent.getEndtime().toString());
+                map.put("startTime", aEvent.getStarttime().getTime());
+                map.put("endTime", aEvent.getEndtime().getTime());
                 map.put("content", aEvent.getContent());
                 map.put("eventName",aEvent.getEventname());
                 map.put("isFollowed",followService.checkIfFollowed(Token.getUid(),aEvent.getEventid()));
@@ -84,16 +84,16 @@ public class EventServiceImpl implements EventService {
         }
         return map;
     }
-    public Map<String, Object> uploadEvenInfo(String token, Map<String, String> info){
-        Map<String, Object> map = new HashMap<>(1);
+    public Map<String, Boolean> uploadEventInfo(String token, Map<String, String> info){
+        Map<String, Boolean> map = new HashMap<>(1);
         if(tokenService.findUidByToken(token)==null){
             map.put("isSucceed",false);
         }else{
             Long uid = tokenService.findUidByToken(token).getUid();
             event aEvent = new event();
             aEvent.setContent(info.get("content"));
-            aEvent.setStarttime(Timestamp.valueOf(info.get("startTime")));
-            aEvent.setEndtime(Timestamp.valueOf(info.get("endTime")));
+            aEvent.setStarttime(new Timestamp(Long.parseLong(info.get("startTime"))));
+            aEvent.setEndtime(new Timestamp(Long.parseLong(info.get("endTime"))));
             aEvent.setLongitude(Double.parseDouble(info.get("longitude")));
             aEvent.setLatitude(Double.parseDouble(info.get("latitude")));
             aEvent.setEventname(info.get("title"));
@@ -171,20 +171,31 @@ public class EventServiceImpl implements EventService {
         if(Token==null){
             return null;
         }else{
-            Long uid = Token.getUid();
-            user aUser = userService.findUserById(uid);
-            aUser.setLongitude(longitude);
-            aUser.setLatitude(latitude);
-            return getEventsNearBy(aUser);
+            return getAllEventInList();
         }
     }
 
     public List myEventList(String token){
-        if(tokenService.findUidByToken(token)==null){
-            return null;
-        }else{
-            Long uid = tokenService.findUidByToken(token).getUid();
-            return getUserEventByUid(uid);
+        var Token=tokenService.findUidByToken(token);
+        List<Map<String,Object>> response=new ArrayList<>();
+        if(Token!=null){
+            var events = getUserEventByUid(Token.getUid());
+            if(events!=null){
+                for(var Event:events){
+                    Map<String,Object> responseItem=new HashMap<>();
+                    responseItem.put("eventname",Event.getEventname());
+                    responseItem.put("eventid",Event.getEventid());
+                    responseItem.put("content",Event.getContent());
+                    responseItem.put("uid",Token.getUid());
+                    responseItem.put("longitude",Event.getLongitude());
+                    responseItem.put("latitude",Event.getLatitude());
+                    responseItem.put("emergency",Event.isEmergency());
+                    responseItem.put("starttime",Event.getStarttime().getTime());
+                    responseItem.put("endtime",Event.getEndtime().getTime());
+                    response.add(responseItem);
+                }
+            }
         }
+        return response;
     }
 }

@@ -3,6 +3,7 @@ package com.crowdos.backend.controller;
 import com.crowdos.backend.model.comment;
 import com.crowdos.backend.model.token;
 import com.crowdos.backend.service.CommentService;
+import com.crowdos.backend.service.EventService;
 import com.crowdos.backend.service.TokenService;
 import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class CommentController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private EventService eventService;
+
     @GetMapping("/postComment")
     public  Map<String, Object> postComment(@RequestParam String token,
                                             @RequestParam String eventId,
@@ -50,6 +54,7 @@ public class CommentController {
                 responseItem.put("eventid",commentItem.getEventid());
                 responseItem.put("content",commentItem.getContent());
                 responseItem.put("UID",commentItem.getUid());
+                responseItem.put("eventname",eventService.findEventByEid(commentItem.getEventid()).getEventname());
                 response.add(responseItem);
             }
         }

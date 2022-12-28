@@ -31,14 +31,14 @@ public class EventController {
 
 
     @GetMapping("/getEventInfo")
-    public  Map<String, Object> getEvenInfo(@RequestParam String token,@RequestParam long eventId){
-        return eventService.getEvenInfo(token,eventId);
+    public  Map<String, Object> getEventInfo(@RequestParam String token,@RequestParam long eventId){
+        return eventService.getEventInfo(token,eventId);
     }
 
     @PostMapping("/uploadEventInfo")
-    public  Map<String, Object> uploadEvenInfo(@RequestParam String token,
-            @RequestBody Map<String, String> info){
-        return eventService.uploadEvenInfo(token,info);
+    public Map<String, Boolean> uploadEventInfo(@RequestParam String token,
+                                                @RequestBody Map<String, String> info){
+        return eventService.uploadEventInfo(token,info);
     }
 
     @GetMapping("/getEventList")
@@ -90,6 +90,7 @@ public class EventController {
                 responseItem.put("eventid",evententity.getEventid());
                 responseItem.put("isFollowed",followService.checkIfFollowed(uid,evententity.getEventid()));
                 responseItem.put("content",evententity.getContent());
+                responseItem.put("starttime",evententity.getStarttime().getTime());
                 response.add(responseItem);
             }
         }

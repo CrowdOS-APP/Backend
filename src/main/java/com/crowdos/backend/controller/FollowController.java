@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,12 +28,25 @@ public class FollowController {
         return followService.follow(token,eventID,follow);
     }
     @GetMapping("/following")
-    public List<event> following(@RequestParam String token){
+    public List following(@RequestParam String token){
         List<followlist> followlists=followService.following(token);
-        List<event> events=new ArrayList<>();
-        for(var follow:followlists){
-            events.add(eventService.findEventByEid(follow.getEventid()));
+        List<Map<String,Object>> response=new ArrayList<>();
+        if(followlists!=null){
+            for(var follow:followlists){
+                event Event=eventService.findEventByEid(follow.getEventid());
+                Map<String,Object> responseItem=new HashMap<>();
+                responseItem.put("eventname",Event.getEventname());
+                responseItem.put("eventid",Event.getEventid());
+                responseItem.put("content",Event.getContent());
+                responseItem.put("longitude",Event.getLongitude());
+                responseItem.put("latitude",Event.getLatitude());
+                responseItem.put("emergency",Event.isEmergency());
+                responseItem.put("starttime",Event.getStarttime().getTime());
+                responseItem.put("endtime",Event.getEndtime().getTime());
+                response.add(responseItem);
+            }
         }
-        return events;
+
+        return response;
     }
 }
