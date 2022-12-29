@@ -30,9 +30,11 @@ public class FollowServiceImpl implements FollowService {
     public long deleteFollow(Long uid, Long follower){
         int cnt=0;
         var entities=followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.and(builder.equal(root.get("uid"),uid),builder.equal(root.get("eventid"),follower))).getRestriction());
-        for(var entity:entities){
-            followDao.delete(entity);
-            cnt++;
+        if(entities!=null){
+            for(var entity:entities){
+                followDao.delete(entity);
+                cnt++;
+            }
         }
         return cnt;
     }

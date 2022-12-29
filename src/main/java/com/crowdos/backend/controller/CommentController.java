@@ -37,7 +37,9 @@ public class CommentController {
     public  Map<String, Object> postComment(@RequestParam String token,
                                             @RequestParam String eventId,
                                                @RequestBody Map<String, String> comment){
-        return commentService.postComment(token,eventId,comment);
+        var response=commentService.postComment(token,eventId,comment);
+        if (response!=null) return response;
+        return new HashMap<>();
     }
 
     @GetMapping("/myComment")
@@ -46,16 +48,18 @@ public class CommentController {
         List<Map<String,Object>> response= new ArrayList<>();
         if(Token!=null){
             List<comment> commentList=commentService.getUserCommentInList(Token.getUid());
-            String username=userService.findUserById(Token.getUid()).getName();
-            for(var commentItem:commentList){
-                Map<String,Object> responseItem= new HashMap<>();
-                responseItem.put("commentid",commentItem.getCommentid());
-                responseItem.put("username",username);
-                responseItem.put("eventid",commentItem.getEventid());
-                responseItem.put("content",commentItem.getContent());
-                responseItem.put("UID",commentItem.getUid());
-                responseItem.put("eventname",eventService.findEventByEid(commentItem.getEventid()).getEventname());
-                response.add(responseItem);
+            if(commentList!=null){
+                String username=userService.findUserById(Token.getUid()).getName();
+                for(var commentItem:commentList){
+                    Map<String,Object> responseItem= new HashMap<>();
+                    responseItem.put("commentid",commentItem.getCommentid());
+                    responseItem.put("username",username);
+                    responseItem.put("eventid",commentItem.getEventid());
+                    responseItem.put("content",commentItem.getContent());
+                    responseItem.put("UID",commentItem.getUid());
+                    responseItem.put("eventname",eventService.findEventByEid(commentItem.getEventid()).getEventname());
+                    response.add(responseItem);
+                }
             }
         }
         return response;

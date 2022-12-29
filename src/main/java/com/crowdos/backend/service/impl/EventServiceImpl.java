@@ -97,6 +97,7 @@ public class EventServiceImpl implements EventService {
             aEvent.setEndtime(new Timestamp(Long.parseLong(info.get("endTime"))));
             aEvent.setLongitude(Double.parseDouble(info.get("longitude")));
             aEvent.setLatitude(Double.parseDouble(info.get("latitude")));
+            aEvent.setUid(uid);
             aEvent.setEventname(info.get("title"));
             aEvent.setEmergency(Boolean.parseBoolean(info.get("isUrgent")));
             createEvent(aEvent);
@@ -114,9 +115,11 @@ public class EventServiceImpl implements EventService {
                 criteriaBuilder.greaterThanOrEqualTo(root.get("latitude"), aUser.getLatitude() - 0.02)
         ).getRestriction());
         List<event> list = new ArrayList<>();
-        for(var entity:list0){
-            if(entity.canAssignTo(aUser)){
-                list.add(entity);
+        if(list0!=null){
+            for(var entity:list0){
+                if(entity.canAssignTo(aUser)){
+                    list.add(entity);
+                }
             }
         }
         return list;
@@ -129,9 +132,11 @@ public class EventServiceImpl implements EventService {
                 criteriaBuilder.lessThanOrEqualTo(root.get("latitude"), aUser.getLatitude() + 0.02),
                 criteriaBuilder.greaterThanOrEqualTo(root.get("latitude"), aUser.getLatitude() - 0.02))).getRestriction());
         List<event> list = new ArrayList<>();
-        for(var entity:list0){
-            if(entity.canAssignTo(aUser)){
-                list.add(entity);
+        if(list0!=null){
+            for(var entity:list0){
+                if(entity.canAssignTo(aUser)){
+                    list.add(entity);
+                }
             }
         }
         return list;

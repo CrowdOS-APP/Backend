@@ -25,7 +25,9 @@ public class FollowController {
     public Map<String, Object> follow(@RequestParam String token,
                                       @RequestParam Long eventID,
                                               @RequestBody Map<String, String> follow){
-        return followService.follow(token,eventID,follow);
+        var response = followService.follow(token,eventID,follow);
+        if(response!=null) return response;
+        return new HashMap<>();
     }
     @GetMapping("/following")
     public List following(@RequestParam String token){
@@ -34,19 +36,20 @@ public class FollowController {
         if(followlists!=null){
             for(var follow:followlists){
                 event Event=eventService.findEventByEid(follow.getEventid());
-                Map<String,Object> responseItem=new HashMap<>();
-                responseItem.put("eventname",Event.getEventname());
-                responseItem.put("eventid",Event.getEventid());
-                responseItem.put("content",Event.getContent());
-                responseItem.put("longitude",Event.getLongitude());
-                responseItem.put("latitude",Event.getLatitude());
-                responseItem.put("emergency",Event.isEmergency());
-                responseItem.put("starttime",Event.getStarttime().getTime());
-                responseItem.put("endtime",Event.getEndtime().getTime());
-                response.add(responseItem);
+                if(Event!=null){
+                    Map<String,Object> responseItem=new HashMap<>();
+                    responseItem.put("eventname",Event.getEventname());
+                    responseItem.put("eventid",Event.getEventid());
+                    responseItem.put("content",Event.getContent());
+                    responseItem.put("longitude",Event.getLongitude());
+                    responseItem.put("latitude",Event.getLatitude());
+                    responseItem.put("emergency",Event.isEmergency());
+                    responseItem.put("starttime",Event.getStarttime().getTime());
+                    responseItem.put("endtime",Event.getEndtime().getTime());
+                    response.add(responseItem);
+                }
             }
         }
-
         return response;
     }
 }

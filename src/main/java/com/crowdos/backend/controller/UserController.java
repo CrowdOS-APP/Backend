@@ -5,6 +5,7 @@ import com.crowdos.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -13,12 +14,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/query")
-    public String getUser(long uid){
-        if(userService.findUserById(uid)==null)
-            return "Not Found";
-        else return userService.findUserById(uid).getName();
-    }
+//    @GetMapping("/query")
+//    public String getUser(long uid){
+//        if(userService.findUserById(uid)==null)
+//            return "Not Found";
+//        else return userService.findUserById(uid).getName();
+//    }
 
 
 
@@ -32,16 +33,22 @@ public class UserController {
     }
     @GetMapping ("/getUserInfo")
     public Map<String, Object> getUserInfo(@RequestParam String token) {
-        return userService.getUserInfo(token);
+        var response = userService.getUserInfo(token);
+        if(response!=null) return response;
+        return new HashMap<>();
     }
     @PostMapping ("/updateUserInfo")
     public Map<String, Object> updateUserInfo(@RequestParam String token,
                                   @RequestBody Map<String, String> params) {
-        return userService.updateUserInfo(token,params);
+        var response = userService.updateUserInfo(token,params);
+        if(response!=null) return response;
+        return new HashMap<>();
     }
     @PostMapping ("/updatePasswd")
     public Map<String, Object> updatePasswd(@RequestParam String token,
                                               @RequestBody Map<String, String> passwd) {
-        return userService.updatePasswd(token,passwd);
+        var response = userService.updatePasswd(token,passwd);
+        if(response!=null) return response;
+        return new HashMap<>();
     }
 }
