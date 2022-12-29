@@ -57,7 +57,7 @@ public class EventController {
                 Map<String,Object> responseItem=new HashMap<>();
                 responseItem.put("commentid",entity.getCommentid());
                 responseItem.put("content",entity.getContent());
-                responseItem.put("username",userService.findUserById(Token.getUid()).getName());
+                responseItem.put("username",userService.findUserById(entity.getUid()).getName());
                 response.add(responseItem);
             }
         }

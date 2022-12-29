@@ -100,14 +100,16 @@ public class UserServiceImpl implements UserService {
         return map;
     }
 
-    public Map<String, Object> updateUserInfo(String token, Map<String, String> signature){
+    public Map<String, Object> updateUserInfo(String token, Map<String, String> params){
         Map<String, Object> map = new HashMap<>(1);
-        if(tokenService.findUidByToken(token)==null){
+        var Token = tokenService.findUidByToken(token);
+        if(Token==null){
             map.put("isSucceed",false);
         }else{
-            Long uid = tokenService.findUidByToken(token).getUid();
+            Long uid = Token.getUid();
             user aUser = findUserById(uid);
-            aUser.setSignature(signature.get("signature"));
+            aUser.setSignature(params.get("signature"));
+            aUser.setName(params.get("username"));
             updateUser(aUser);
             map.put("isSucceed",true);
         }
@@ -115,10 +117,11 @@ public class UserServiceImpl implements UserService {
     }
     public Map<String, Object> updatePasswd(String token, Map<String, String> passwd){
         Map<String, Object> map = new HashMap<>(1);
-        if(tokenService.findUidByToken(token)==null){
+        var Token=tokenService.findUidByToken(token);
+        if(Token==null){
             map.put("isSucceed",false);
         }else{
-            Long uid = tokenService.findUidByToken(token).getUid();
+            Long uid = Token.getUid();
             user aUser = findUserById(uid);
             if(!aUser.getPasswd().equals(passwd.get("oldPasswd"))){
                 map.put("isSucceed",false);

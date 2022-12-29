@@ -60,10 +60,11 @@ public class CommentServiceImpl implements CommentService {
 
     public Map<String, Object> postComment(String token, String eventId, Map<String, String> comment){
         Map map = new HashMap<>(1);
-        if(tokenService.findUidByToken(token)==null){
+        var Token=tokenService.findUidByToken(token);
+        if(Token==null){
             map.put("isSucceed",false);
         }else{
-            Long uid = tokenService.findUidByToken(token).getUid();
+            Long uid = Token.getUid();
             comment aComment = new comment();
             aComment.setContent(comment.get("comment"));
             map.put("isSucceed",true);

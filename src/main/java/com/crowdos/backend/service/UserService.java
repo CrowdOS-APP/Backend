@@ -22,7 +22,7 @@ public interface UserService {
 
     Map<String, Object> getUserInfo(String token);
 
-    Map<String, Object> updateUserInfo(String token, Map<String, String> signature);
+    Map<String, Object> updateUserInfo(String token, Map<String, String> params);
 
     Map<String, Object> updatePasswd(String token, Map<String, String> passwd);
 }

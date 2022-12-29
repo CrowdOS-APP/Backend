@@ -22,24 +22,24 @@ public class UserController {
 
 
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public Boolean register(@RequestBody Map<String, String> Register) {
         return userService.register(Register);
     }
-    @PostMapping("login")
+    @PostMapping("/login")
     public String login(@RequestBody Map<String, String> Login) {
         return userService.login(Login);
     }
-    @GetMapping ("getUserInfo")
+    @GetMapping ("/getUserInfo")
     public Map<String, Object> getUserInfo(@RequestParam String token) {
         return userService.getUserInfo(token);
     }
-    @PostMapping ("updateUserInfo")
+    @PostMapping ("/updateUserInfo")
     public Map<String, Object> updateUserInfo(@RequestParam String token,
                                   @RequestBody Map<String, String> signature) {
         return userService.updateUserInfo(token,signature);
     }
-    @PostMapping ("updatePasswd")
+    @PostMapping ("/updatePasswd")
     public Map<String, Object> updatePasswd(@RequestParam String token,
                                               @RequestBody Map<String, String> passwd) {
         return userService.updatePasswd(token,passwd);

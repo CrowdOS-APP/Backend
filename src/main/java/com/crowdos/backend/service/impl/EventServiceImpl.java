@@ -86,10 +86,11 @@ public class EventServiceImpl implements EventService {
     }
     public Map<String, Boolean> uploadEventInfo(String token, Map<String, String> info){
         Map<String, Boolean> map = new HashMap<>(1);
-        if(tokenService.findUidByToken(token)==null){
+        var Token =tokenService.findUidByToken(token);
+        if(Token==null){
             map.put("isSucceed",false);
         }else{
-            Long uid = tokenService.findUidByToken(token).getUid();
+            Long uid = Token.getUid();
             event aEvent = new event();
             aEvent.setContent(info.get("content"));
             aEvent.setStarttime(new Timestamp(Long.parseLong(info.get("startTime"))));
