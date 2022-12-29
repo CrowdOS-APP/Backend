@@ -36,8 +36,8 @@ public class UserController {
     }
     @PostMapping ("/updateUserInfo")
     public Map<String, Object> updateUserInfo(@RequestParam String token,
-                                  @RequestBody Map<String, String> signature) {
-        return userService.updateUserInfo(token,signature);
+                                  @RequestBody Map<String, String> params) {
+        return userService.updateUserInfo(token,params);
     }
     @PostMapping ("/updatePasswd")
     public Map<String, Object> updatePasswd(@RequestParam String token,
