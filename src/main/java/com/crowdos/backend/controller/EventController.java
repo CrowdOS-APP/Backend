@@ -46,19 +46,18 @@ public class EventController {
     }
 
     @GetMapping("/getEventList")
-    public List getEventList(){
+    public List<event> getEventList(){
         var response = eventService.getAllEventInList();
         if(response!=null) return response;
         else return new ArrayList<>();
     }
 
     @GetMapping("/getComment")
-    public List getComment(@RequestParam String token,@RequestParam Long eventid){
+    public List<Map<String,Object>> getComment(@RequestParam String token,@RequestParam Long eventid){
         var Token=tokenService.findUidByToken(token);
         List<Map<String,Object>> response=new ArrayList<>();
         if(Token!=null){
             var comments= eventService.getComment(Token,eventid);
-            var uid =Token.getUid();
             if(comments!=null){
                 for(var entity:comments){
                     Map<String,Object> responseItem=new HashMap<>();
@@ -82,13 +81,13 @@ public class EventController {
     }
 
     @GetMapping("/getEmergencyList")
-    public  List getEmergencyList(@RequestParam String token,
+    public  List<Map<String,Object>> getEmergencyList(@RequestParam String token,
                                   @RequestParam double longitude,
                                   @RequestParam double latitude){
         var Token=tokenService.findUidByToken(token);
         List<Map<String,Object>> response=new ArrayList<>();
         if(Token!=null){
-            Long uid = Token.getUid();
+            long uid = Token.getUid();
             user aUser = userService.findUserById(uid);
             aUser.setLongitude(longitude);
             aUser.setLatitude(latitude);
@@ -111,15 +110,15 @@ public class EventController {
     }
 
     @GetMapping("/getEventsNearby")
-    public List getEventsNearby(@RequestParam String token,@RequestParam double longitude,@RequestParam double latitude){
+    public List<event> getEventsNearby(@RequestParam String token,@RequestParam double longitude,@RequestParam double latitude){
         var response = eventService.getNearByEventList(token,longitude,latitude);
         if(response!=null) return response;
         return new ArrayList<>();
     }
 
     @GetMapping("/myEventList")
-    public  List<event> myEventList(@RequestParam String token){
-        List<event> eventList=eventService.myEventList(token);
+    public  List<Map<String,Object>> myEventList(@RequestParam String token){
+        List<Map<String,Object>> eventList=eventService.myEventList(token);
         if(eventList!=null){
             return eventList;
         }

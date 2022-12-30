@@ -29,9 +29,9 @@ public interface EventService {
 
     Map<String, Object> postComment(String token, Long eventId, Map<String, String> comment);
 
-    List getEmergencyList(String token, Map<String, Double> info);
+    List<event> getEmergencyList(String token, Map<String, Double> info);
 
-    List getNearByEventList(String token,double longitude,double latitude);
+    List<event> getNearByEventList(String token,double longitude,double latitude);
 
-    List<event> myEventList(String token);
+    List<Map<String,Object>> myEventList(String token);
 }

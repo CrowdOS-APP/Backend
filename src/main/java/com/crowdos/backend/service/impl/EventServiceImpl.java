@@ -90,7 +90,7 @@ public class EventServiceImpl implements EventService {
         if(Token==null){
             map.put("isSucceed",false);
         }else{
-            Long uid = Token.getUid();
+            long uid = Token.getUid();
             event aEvent = new event();
             aEvent.setContent(info.get("content"));
             aEvent.setStarttime(new Timestamp(Long.parseLong(info.get("startTime"))));
@@ -115,7 +115,7 @@ public class EventServiceImpl implements EventService {
                 criteriaBuilder.greaterThanOrEqualTo(root.get("latitude"), aUser.getLatitude() - 0.02)
         ).getRestriction());
         List<event> list = new ArrayList<>();
-        if(list0!=null){
+        if(!list0.isEmpty()){
             for(var entity:list0){
                 if(entity.canAssignTo(aUser)){
                     list.add(entity);
@@ -132,7 +132,7 @@ public class EventServiceImpl implements EventService {
                 criteriaBuilder.lessThanOrEqualTo(root.get("latitude"), aUser.getLatitude() + 0.02),
                 criteriaBuilder.greaterThanOrEqualTo(root.get("latitude"), aUser.getLatitude() - 0.02))).getRestriction());
         List<event> list = new ArrayList<>();
-        if(list0!=null){
+        if(!list0.isEmpty()){
             for(var entity:list0){
                 if(entity.canAssignTo(aUser)){
                     list.add(entity);
@@ -160,7 +160,7 @@ public class EventServiceImpl implements EventService {
         return map;
     }
 
-    public List getEmergencyList(String token, Map<String, Double> info){
+    public List<event> getEmergencyList(String token, Map<String, Double> info){
         var Token=tokenService.findUidByToken(token);
         if(Token==null){
             return null;
@@ -172,7 +172,7 @@ public class EventServiceImpl implements EventService {
             return getEmergencyEvent(aUser);
         }
     }
-    public List getNearByEventList(String token,double longitude,double latitude){
+    public List<event> getNearByEventList(String token,double longitude,double latitude){
         var Token=tokenService.findUidByToken(token);
         if(Token==null){
             return null;
@@ -181,7 +181,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    public List myEventList(String token){
+    public List<Map<String,Object>> myEventList(String token){
         var Token=tokenService.findUidByToken(token);
         List<Map<String,Object>> response=new ArrayList<>();
         if(Token!=null){

@@ -24,13 +24,20 @@ public class FollowServiceImpl implements FollowService {
     @Autowired
     private FollowDao followDao;
 
-    public followlist createFollow(followlist followPair){
-        return followDao.save(followPair);
+    public followlist createFollow(Long uid, Long eventid){
+        var entities=followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.and(builder.equal(root.get("uid"),uid),builder.equal(root.get("eventid"),eventid))).getRestriction());
+        if(entities.isEmpty()) {
+            followlist aFollow = new followlist();
+            aFollow.setUid(uid);
+            aFollow.setEventid(eventid);
+            return followDao.save(aFollow);
+        }
+        return entities.get(0);
     }
-    public long deleteFollow(Long uid, Long follower){
+    public long deleteFollow(Long uid, Long eventid){
         int cnt=0;
-        var entities=followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.and(builder.equal(root.get("uid"),uid),builder.equal(root.get("eventid"),follower))).getRestriction());
-        if(entities!=null){
+        var entities=followDao.findAll((Specification<followlist>) (root, query, builder) -> query.where(builder.and(builder.equal(root.get("uid"),uid),builder.equal(root.get("eventid"),eventid))).getRestriction());
+        if(!entities.isEmpty()){
             for(var entity:entities){
                 followDao.delete(entity);
                 cnt++;
@@ -65,12 +72,9 @@ public class FollowServiceImpl implements FollowService {
             map.put("isSucceed",false);
         }else{
             Long uid = Token.getUid();
-            Boolean isFollow = Boolean.parseBoolean(follow.get("isFollow"));
+            boolean isFollow = Boolean.parseBoolean(follow.get("isFollow"));
             if(isFollow){
-                followlist aFollow = new followlist();
-                aFollow.setUid(uid);
-                aFollow.setEventid(eventID);
-                createFollow(aFollow);
+                createFollow(uid,eventID);
             }else{
                 deleteFollow(uid,eventID);
             }

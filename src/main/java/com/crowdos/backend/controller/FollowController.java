@@ -30,7 +30,7 @@ public class FollowController {
         return new HashMap<>();
     }
     @GetMapping("/following")
-    public List following(@RequestParam String token){
+    public List<Map<String,Object>> following(@RequestParam String token){
         List<followlist> followlists=followService.following(token);
         List<Map<String,Object>> response=new ArrayList<>();
         if(followlists!=null){

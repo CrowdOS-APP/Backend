@@ -14,15 +14,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @GetMapping("/query")
-//    public String getUser(long uid){
-//        if(userService.findUserById(uid)==null)
-//            return "Not Found";
-//        else return userService.findUserById(uid).getName();
-//    }
-
-
-
     @PostMapping("/register")
     public Boolean register(@RequestBody Map<String, String> Register) {
         return userService.register(Register);
