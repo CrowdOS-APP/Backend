@@ -102,6 +102,7 @@ public class EventController {
                     responseItem.put("isFollowed",followService.checkIfFollowed(uid,evententity.getEventid()));
                     responseItem.put("content",evententity.getContent());
                     responseItem.put("starttime",evententity.getStarttime().getTime());
+                    responseItem.put("endtime",evententity.getEndtime().getTime());
                     response.add(responseItem);
                 }
             }
@@ -110,10 +111,23 @@ public class EventController {
     }
 
     @GetMapping("/getEventsNearby")
-    public List<event> getEventsNearby(@RequestParam String token,@RequestParam double longitude,@RequestParam double latitude){
-        var response = eventService.getNearByEventList(token,longitude,latitude);
-        if(response!=null) return response;
-        return new ArrayList<>();
+    public List<Map<String,Object>> getEventsNearby(@RequestParam String token,@RequestParam double longitude,@RequestParam double latitude){
+        List<Map<String,Object>> response=new ArrayList<>();
+        var eventlist = eventService.getNearByEventList(token,longitude,latitude);
+        if(eventlist!=null){
+            for(var evententity:eventlist){
+                Map<String,Object> responseItem=new HashMap<>();
+                responseItem.put("longitude",evententity.getLongitude());
+                responseItem.put("latitude",evententity.getLatitude());
+                responseItem.put("eventname",evententity.getEventname());
+                responseItem.put("eventid",evententity.getEventid());
+                responseItem.put("emergency",evententity.isEmergency());
+                responseItem.put("starttime",evententity.getStarttime().getTime());
+                responseItem.put("endtime",evententity.getEndtime().getTime());
+                response.add(responseItem);
+            }
+        }
+        return response;
     }
 
     @GetMapping("/myEventList")

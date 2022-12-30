@@ -1,6 +1,8 @@
 package com.crowdos.backend.service.impl;
 
+import com.crowdos.backend.dao.EventDao;
 import com.crowdos.backend.dao.FollowDao;
+import com.crowdos.backend.model.event;
 import com.crowdos.backend.model.followlist;
 import com.crowdos.backend.model.token;
 import com.crowdos.backend.service.FollowService;
@@ -20,7 +22,9 @@ import java.util.Map;
 public class FollowServiceImpl implements FollowService {
 
     @Autowired
-    TokenService tokenService;
+    private TokenService tokenService;
+    @Autowired
+    private EventDao eventDao;
     @Autowired
     private FollowDao followDao;
 
@@ -71,8 +75,15 @@ public class FollowServiceImpl implements FollowService {
         if(Token==null){
             map.put("isSucceed",false);
         }else{
-            Long uid = Token.getUid();
+            long uid = Token.getUid();
             boolean isFollow = Boolean.parseBoolean(follow.get("isFollow"));
+            var myEvents=eventDao.findAll((Specification<event>) (root, query, builder) -> query.where(builder.equal(root.get("uid"), uid)).getRestriction());
+            for(var i:myEvents){
+                if(i.getUid()==uid){
+                    map.put("isSucceed",false);
+                    break;
+                }
+            }
             if(isFollow){
                 createFollow(uid,eventID);
             }else{
